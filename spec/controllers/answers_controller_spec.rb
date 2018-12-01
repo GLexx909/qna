@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
   let(:question) { create :question }
+  let(:answer) { create :answer, question: question }
 
   describe 'GET #index' do
     let(:answers) { create_list :answer, 3, question: question}
@@ -22,10 +23,6 @@ RSpec.describe AnswersController, type: :controller do
 
     before { get :show, params: { id: answer } }
 
-    it 'assigns the requested answer to @answer' do
-      expect(assigns(:answer)).to eq answer
-    end
-
     it 'render show view' do
       expect(response).to render_template :show
     end
@@ -34,22 +31,13 @@ RSpec.describe AnswersController, type: :controller do
   describe 'GET #new' do
     before { get :new, params: { question_id: question } }
 
-    it 'assigns a new Answer to @answer' do
-      expect(assigns(:answer)).to be_a_new(Answer)
-    end
-
     it 'render new view' do
       expect(response).to render_template :new
     end
   end
 
   describe 'GET #edit' do
-    let(:answer) { create :answer, question: question }
     before { get :edit, params: { id: answer } }
-
-    it 'assigns the requested answer to @answer' do
-      expect(assigns(:answer)).to eq answer
-    end
 
     it 'redirect edit view' do
       expect(response).to render_template :edit
@@ -82,7 +70,6 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'PATCH #update' do
     context 'with valid attributes' do
-      let(:answer) { create :answer, question: question }
       it 'assigns the requested answer to @answer' do
         patch :update, params: { id: answer, answer: attributes_for(:answer) }
         expect(assigns(:answer)).to eq answer
@@ -102,7 +89,6 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'with invalid attributes' do
-      let(:answer) { create :answer, question: question }
       before { patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) } }
 
       it 'does not change question' do
