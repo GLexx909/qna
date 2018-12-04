@@ -31,8 +31,7 @@ feature 'User can see questions list', %q{
     click_on 'QNA'
 
     expect(page).to have_content 'Test question'
-    expect(page).to have_content 'text text text'
     expect(page).to have_content 'Test 2 question'
-    expect(page).to have_content 'text 2 text text'
+    #Удалил, ибо @question.body в списке вопростов не нужны, как мне кажется.
   end
 end

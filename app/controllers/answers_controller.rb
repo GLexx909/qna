@@ -1,8 +1,6 @@
 class AnswersController < ApplicationController
 
-  def index
-    @answers = question.answers
-  end
+  def index; end
 
   def show; end
 
@@ -14,9 +12,9 @@ class AnswersController < ApplicationController
     @answer = question.answers.new(answer_params)
 
     if @answer.save
-      redirect_to @answer
+      redirect_to answer.question
     else
-      render :new
+      render :index
     end
   end
 

@@ -5,13 +5,13 @@ RSpec.describe AnswersController, type: :controller do
   let(:answer) { create :answer, question: question }
 
   describe 'GET #index' do
-    let(:answers) { create_list :answer, 3, question: question}
-
+    # let(:answers) { create_list :answer, 3, question: question}
+    #
     before { get :index, params: { question_id: question } }
-
-    it 'populates an array of all answers' do
-      expect(assigns(:answers)).to match_array(answers)
-    end
+    # Правильно ли убрать проверку переменной @answers, коли её нет у меня в #index ?
+    # it 'populates an array of all answers' do
+    #   expect(assigns(:answers)).to match_array(answers)
+    # end
 
     it 'render index view' do
       expect(response).to render_template :index
@@ -52,7 +52,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'redirect to show view' do
         post :create, params: { question_id: question, answer: attributes_for(:answer) }
-        expect(response).to redirect_to assigns(:answer)
+        expect(response).to redirect_to answer.question
       end
     end
 
@@ -63,7 +63,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 're-render new view' do
         post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) }
-        expect(response).to render_template :new
+        expect(response).to render_template :index
       end
     end
   end
