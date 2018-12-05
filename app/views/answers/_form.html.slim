@@ -1,4 +1,4 @@
-= form_with model: [question, @answer], local: true do |f|
+= form_with model: [@question, @answer], local: true do |f|
   = render 'shared/errors', resource: @answer
 
   .field
@@ -6,3 +6,6 @@
     = f.text_area :body
   .actions
     = f.submit 'Post Your Answer'
+
+    p id='needSignIn' style="display: none;"
+      = 'You need to sign in or sign up before continuing.'

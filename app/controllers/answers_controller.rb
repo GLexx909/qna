@@ -1,20 +1,18 @@
 class AnswersController < ApplicationController
 
-  def index; end
-
-  def show; end
-
-  def new; end
+  def index
+    redirect_to question
+  end
 
   def edit; end
 
   def create
     @answer = question.answers.new(answer_params)
-
+    @answer.author = current_user
     if @answer.save
       redirect_to answer.question
     else
-      render :index
+      render '/questions/show'
     end
   end
 

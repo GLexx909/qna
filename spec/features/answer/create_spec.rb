@@ -7,16 +7,14 @@ feature 'User can create answer', %q{
 } do
 
   given(:user) {create(:user) }
+  given!(:question) { create :question, author: user }
+
 
   describe 'Authenticate user' do
     background do
       sign_in(user)
       visit questions_path
-      click_on 'Ask question'
-
-      fill_in 'Title', with: 'Test question'
-      fill_in 'Body', with: 'text of question'
-      click_on 'Ask'
+      click_on 'Answers'
     end
 
     scenario 'create an answer' do
@@ -33,10 +31,17 @@ feature 'User can create answer', %q{
     end
   end
 
-  scenario 'Unauthenticated user tries to ask a question' do
+  scenario 'Unauthenticated user tries to create an answer' do
     visit questions_path
-    click_on 'Ask question'
+    click_on 'Answers'
 
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    fill_in 'Body', with: 'Non auth text'
+    click_on 'Post Your Answer'
+    # Тут должен сработать post_answer_disabled.coffee
+    # и вывести на экран 'You need to sign in or sign up before continuing.'
+    # что по-сути и происходит в жизни
+    # Но, походу, проверка expect делает своё дело быстрее.
+    # Поэтому текст не виден.
+    expect(page).to have_content('You need to sign in or sign up before continuing.')
   end
 end

@@ -1,2 +1,3 @@
-- question.answers.each do |answer|
-  p = answer.body
+- @question.answers.each do |answer|
+  p = answer.body if answer.persisted?
+  = link_to 'Delete the Answer', answer_path(answer), method: :delete if answer.persisted? && answer.author == current_user
