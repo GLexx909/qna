@@ -92,13 +92,14 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context 'with invalid attributes' do
+      let!(:question) { create :question, title: 'MyTitle', body: 'MyBody', author: user }
       before { patch :update, params: { id: question, question: attributes_for(:question, :invalid) } }
 
       it 'does not change question' do
         question.reload
 
-        expect(question.title).to eq 'Question Title'
-        expect(question.body).to eq 'Question Body'
+        expect(question.title).to eq 'MyTitle'
+        expect(question.body).to eq 'MyBody'
       end
 
       it 're-redirect edit view' do

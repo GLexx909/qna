@@ -40,7 +40,7 @@ feature 'User can create answer', %q{
     # Тут должен сработать post_answer_disabled.coffee
     # и вывести на экран 'You need to sign in or sign up before continuing.'
     # что по-сути и происходит в жизни
-    # Но, походу, проверка expect делает своё дело быстрее.
+    # Но, походу, проверка expect делает своё дело быстрее, чем JS срабатывет.
     # Поэтому текст не виден.
     expect(page).to have_content('You need to sign in or sign up before continuing.')
   end
