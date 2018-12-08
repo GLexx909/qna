@@ -5,14 +5,9 @@ RSpec.describe AnswersController, type: :controller do
   let(:question) { create :question, author: user }
   let(:answer) { create :answer, question: question, author: user }
 
-  describe 'GET #index' do
-    it 'render index view' do
-      get :index, params: { question_id: question }
-      expect(response).to redirect_to question
-    end
-  end
-
   describe 'GET #edit' do
+    before { login(user) }
+
     it 'redirect edit view' do
       get :edit, params: { id: answer }
       expect(response).to render_template :edit
@@ -40,7 +35,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 're-render to "/questions/show"' do
         post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) }
-        expect(response).to render_template :show
+        expect(response).to render_template 'question'
       end
     end
   end
@@ -82,14 +77,28 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    let!(:answer) {create :answer, question: question, author: user}
-    it 'delete the answer' do
-      expect { delete :destroy, params: { id: answer }}.to change(Answer, :count).by(-1)
+    let!(:user1) { create :user }
+    let!(:answer) {create :answer, question: question, author: user1}
+
+    context 'Author' do
+    before { login(user1) }
+
+      it 'delete the answer' do
+        expect { delete :destroy, params: { id: answer }}.to change(Answer, :count).by(-1)
+      end
+
+      it 'redirect to index view' do
+        delete :destroy, params: { id: answer }
+        expect(response).to redirect_to question_path(answer.question)
+      end
     end
 
-    it 'redirect to index view' do
-      delete :destroy, params: { id: answer }
-      expect(response).to redirect_to question_answers_path(answer.question)
+    context 'Not author' do
+      before { login(user) }
+
+      it 'delete the answer' do
+        expect { delete :destroy, params: { id: answer }}.to_not change(Answer, :count)
+      end
     end
   end
 end

@@ -106,9 +106,14 @@ RSpec.describe QuestionsController, type: :controller do
         expect(response).to render_template :edit
       end
     end
+  end
 
-    describe 'DELETE #destroy' do
-      let!(:question) { create :question, author: user }
+  describe 'DELETE #destroy' do
+    let!(:user1) { create :user }
+    let!(:question) { create :question, author: user1 }
+
+    context 'Author' do
+      before { login(user1) }
 
       it 'deletes the question' do
         expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
@@ -120,5 +125,12 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
 
+    context 'Not author' do
+      before { login(user) }
+
+      it 'deletes the question' do
+        expect { delete :destroy, params: { id: question } }.to_not change(Question, :count)
+      end
+    end
   end
 end
