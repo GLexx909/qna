@@ -35,7 +35,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 're-render to "/questions/show"' do
         post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) }
-        expect(response).to render_template 'question'
+        expect(response).to render_template 'questions/show'
       end
     end
   end
