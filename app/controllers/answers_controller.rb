@@ -1,22 +1,17 @@
 class AnswersController < ApplicationController
 
-  def index
-    @answers = question.answers
-  end
-
-  def show; end
-
-  def new; end
+  before_action :authenticate_user!
 
   def edit; end
 
   def create
     @answer = question.answers.new(answer_params)
+    @answer.author = current_user
 
     if @answer.save
-      redirect_to @answer
+      redirect_to question
     else
-      render :new
+      render 'questions/show'
     end
   end
 
@@ -29,8 +24,8 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    answer.destroy
-    redirect_to question_answers_path(answer.question)
+    answer.destroy if current_user.author_of?(answer)
+    redirect_to question_path(answer.question)
   end
 
   private
