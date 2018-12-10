@@ -21,6 +21,10 @@ RSpec.describe AnswersController, type: :controller do
     context 'with valid attributes' do
       it 'save a new answer in the database' do
         expect { post :create, params: { question_id: question, answer: attributes_for(:answer) } }.to change(Answer, :count).by(1)
+      end
+
+      it 'according to the author of the answer' do
+        post :create, params: { question_id: question, answer: attributes_for(:answer) }
         expect(assigns(:answer).author).to eq user
       end
 
