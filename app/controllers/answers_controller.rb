@@ -8,12 +8,11 @@ class AnswersController < ApplicationController
     @answer = question.answers.new(answer_params)
     @answer.author = current_user
 
-    if current_user && @answer.save
-      redirect_to @answer.question
+    if @answer.save
+      redirect_to question
     else
       render 'questions/show'
     end
-
   end
 
   def update

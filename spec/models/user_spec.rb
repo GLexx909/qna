@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
+  it { should have_many(:questions).with_foreign_key('author_id') }
+  it { should have_many(:answers).with_foreign_key('author_id') }
+
   it { should validate_presence_of :email }
   it { should validate_presence_of :password }
 
@@ -10,11 +13,11 @@ RSpec.describe User, type: :model do
 
   describe 'User#author_of? check' do
     it 'is user the author of entry' do
-      expect(true).to eq user1.author_of?(question)
+      expect(user1).to be_author_of(question)
     end
 
     it 'is user not author of entry' do
-      expect(false).to eq user2.author_of?(question)
+      expect(user2).to_not be_author_of(question)
     end
   end
 end

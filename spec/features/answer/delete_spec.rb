@@ -15,8 +15,7 @@ feature 'Only author can delete the answer', %q{
   describe 'Authenticated user' do
     scenario 'is author, delete the answer' do
       sign_in(user1)
-      visit questions_path
-      click_on 'Answers'
+      visit question_path(question)
       click_on 'Delete the Answer'
 
       expect(page).to_not have_content answer.body
@@ -24,16 +23,14 @@ feature 'Only author can delete the answer', %q{
 
     scenario 'is not author delete the answer' do
       sign_in(user2)
-      visit questions_path
-      click_on 'Answers'
+      visit question_path(question)
 
       expect(page).to_not have_content 'Delete the Answer'
     end
   end
 
   scenario 'Unauthenticated user is not author delete the answer' do
-    visit questions_path
-    click_on 'Answers'
+    visit question_path(question)
 
     expect(page).to_not have_content 'Delete the Answer'
   end
