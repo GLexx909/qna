@@ -3,5 +3,9 @@ h1 = @question.title
 p = @question.body
 
 
-p = render 'questions/answers'
+.answers
+  = render @question.answers
+
+.answer-errors
+
 = render 'answers/form'

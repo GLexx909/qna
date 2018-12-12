@@ -13,18 +13,19 @@ feature 'User can create answer', %q{
   describe 'Authenticate user' do
     background do
       sign_in(user)
-      visit questions_path
-      click_on 'Answers'
+      visit question_path(question)
     end
 
-    scenario 'create an answer' do
+    scenario 'create an answer', js: true do
       fill_in 'Body', with: 'text text text'
       click_on 'Post Your Answer'
 
-      expect(page).to have_content 'text text text'
+      within '.answers' do
+        expect(page).to have_content 'text text text'
+      end
     end
 
-    scenario 'asks a question with error' do
+    scenario 'asks a question with error', js: true do
       click_on 'Post Your Answer'
 
       expect(page).to have_content "Body can't be blank"
@@ -32,8 +33,7 @@ feature 'User can create answer', %q{
   end
 
   scenario 'Unauthenticated user tries to create an answer' do
-    visit questions_path
-    click_on 'Answers'
+    visit question_path(question)
 
     fill_in 'Body', with: 'Non auth text'
     click_on 'Post Your Answer'
