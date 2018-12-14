@@ -16,7 +16,20 @@ class AnswersController < ApplicationController
 
   def destroy
     answer.destroy if current_user.author_of?(answer)
-    redirect_to question_path(answer.question)
+  end
+
+  def best?
+    answer.best
+  end
+
+  def mark_best
+    answer.best =
+        if answer.best?
+          false
+        else
+          true
+        end
+    answer.save if answer.question.author_of?(question)
   end
 
   private

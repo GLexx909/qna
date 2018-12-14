@@ -18,7 +18,7 @@ RSpec.describe AnswersController, type: :controller do
         expect(assigns(:answer).author).to eq user
       end
 
-      it 'redirect to show view' do
+      it 'redirect to create view' do
         post :create, params: { question_id: question, answer: attributes_for(:answer) }, format: :js
         expect(response).to render_template :create
       end
@@ -29,7 +29,7 @@ RSpec.describe AnswersController, type: :controller do
         expect { post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) }, format: :js }.to_not change(Answer, :count)
       end
 
-      it 're-render to "/questions/show"' do
+      it 'render to create view' do
         post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid), format: :js }
         expect(response).to render_template :create
       end
@@ -98,12 +98,12 @@ RSpec.describe AnswersController, type: :controller do
       before { login(user1) }
 
       it 'delete the answer' do
-        expect { delete :destroy, params: { id: answer }}.to change(Answer, :count).by(-1)
+        expect { delete :destroy, params: { id: answer }, format: :js}.to change(Answer, :count).by(-1)
       end
 
-      it 'redirect to "questions/show" view' do
-        delete :destroy, params: { id: answer }
-        expect(response).to redirect_to question
+      it 'render destroy view' do
+        delete :destroy, params: { id: answer }, format: :js
+        expect(response).to render_template :destroy
       end
     end
 
@@ -111,13 +111,49 @@ RSpec.describe AnswersController, type: :controller do
       before { login(user) }
 
       it 'delete the answer' do
-        expect { delete :destroy, params: { id: answer }}.to_not change(Answer, :count)
+        expect { delete :destroy, params: { id: answer }, format: :js}.to_not change(Answer, :count)
       end
 
-      it 'redirect to "questions/show" view' do
-        delete :destroy, params: { id: answer }
-        expect(response).to redirect_to question
+      it 'render destroy view' do
+        delete :destroy, params: { id: answer }, format: :js
+        expect(response).to render_template :destroy
       end
+    end
+  end
+
+  describe 'action#mark_best' do
+    context 'Author of question' do
+      before { login(user)}
+
+      it 'mark best answer' do
+        patch :update, params: { id: answer, answer: { best: true} }, format: :js
+        expect(assigns(:answer).best).to eq true
+      end
+
+      it 'remove best answer mark' do
+        patch :update, params: { id: answer, answer: { best: false} }, format: :js
+        expect(assigns(:answer).best).to eq false
+      end
+    end
+
+    context 'Not Author of question' do
+      let(:user1) { create :user }
+
+      it 'mark best answer' do
+        patch :update, params: { id: answer, answer: { best: true} }, format: :js
+        expect(assigns(:answer).best).to eq false
+      end
+    end
+  end
+
+  describe 'method#best?' do
+    it 'request true if answer marked as best' do
+      answer.instance_variable_set(:best, true)
+      expect(answer.best?).to eq true
+    end
+
+    it 'request false if answer not marked as best' do
+      expect(answer.best?).to eq false
     end
   end
 end
