@@ -18,18 +18,9 @@ class AnswersController < ApplicationController
     answer.destroy if current_user.author_of?(answer)
   end
 
-  def best?
-    answer.best
-  end
-
   def mark_best
-    answer.best =
-        if answer.best?
-          false
-        else
-          true
-        end
-    answer.save if answer.question.author_of?(question)
+    answer.change_mark_best if current_user.author_of?(answer.question)
+    answer.save
   end
 
   private

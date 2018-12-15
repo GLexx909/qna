@@ -1,0 +1,14 @@
+- if answer.best?
+  - if current_user&.author_of?(@question)
+    .div-best-answer-button
+      = button_to 'Cancel mark as best answer', mark_best_answer_path(answer), class: 'best-answer-button btn btn-secondary', method: :patch, remote: true
+  .best-answer-mark = 'Best Answer!'
+- else
+  - if current_user&.author_of?(@question)
+    - if @question.answers.any? { |answer| answer.best? }
+      .div-best-answer-button.hidden
+        = button_to 'Mark as best answer', mark_best_answer_path(answer), class: 'best-answer-button btn btn-secondary', method: :patch, remote: true
+    - else
+      .div-best-answer-button
+        = button_to 'Mark as best answer', mark_best_answer_path(answer), class: 'best-answer-button btn btn-secondary', method: :patch, remote: true
+  .best-answer-mark

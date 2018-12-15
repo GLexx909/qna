@@ -5,11 +5,10 @@
 h1.title-question = @question.title
 p.body-question = @question.body
 
-
 = render 'form'
 
 .answers
-  = render @question.answers
+  = render @question.answers.sort_by_best
 
 .answer-errors
 

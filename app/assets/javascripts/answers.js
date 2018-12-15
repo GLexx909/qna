@@ -17,8 +17,17 @@ $(document).on('turbolinks:load', function(){
 
     // Mark best answer button
 
-    $('.answers').on('click', '.best-answer-button', function(e){
-        e.preventDefault();
-        $('.best-answer-button').hide('fast');
+    $('.answers').on('click', '.best-answer-button', function(){
+        if ($(this).attr('value') == 'Mark as best answer') {
+            $('.best-answer-button').hide('fast');
+            $(this).show('fast');
+            $(this).prop('value', 'Cancel mark as best answer');
+            $(this).closest('.card').children('.best-answer-mark').html('Best Answer!');
+        } else {
+            $('.div-best-answer-button').show();
+            $(this).prop('value', 'Mark as best answer');
+            $('.best-answer-button').show('fast');
+            $(this).closest('.card').children('.best-answer-mark').html('');
+        }
     });
 });

@@ -126,34 +126,25 @@ RSpec.describe AnswersController, type: :controller do
       before { login(user)}
 
       it 'mark best answer' do
-        patch :update, params: { id: answer, answer: { best: true} }, format: :js
+        patch :mark_best, params: { id: answer }, format: :js
         expect(assigns(:answer).best).to eq true
       end
 
       it 'remove best answer mark' do
-        patch :update, params: { id: answer, answer: { best: false} }, format: :js
+        patch :mark_best, params: { id: answer }, format: :js
+        patch :mark_best, params: { id: answer }, format: :js
         expect(assigns(:answer).best).to eq false
       end
     end
 
     context 'Not Author of question' do
       let(:user1) { create :user }
+      before { login(user1)}
 
       it 'mark best answer' do
-        patch :update, params: { id: answer, answer: { best: true} }, format: :js
+        patch :mark_best, params: { id: answer }, format: :js
         expect(assigns(:answer).best).to eq false
       end
-    end
-  end
-
-  describe 'method#best?' do
-    it 'request true if answer marked as best' do
-      answer.instance_variable_set(:best, true)
-      expect(answer.best?).to eq true
-    end
-
-    it 'request false if answer not marked as best' do
-      expect(answer.best?).to eq false
     end
   end
 end

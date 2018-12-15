@@ -1,7 +1,7 @@
 - if answer.persisted?
   .card.max-width-18-rem.mb-3.box-shadow-card
-    = button_to 'Mark as best answer', '#', class: 'best-answer-button btn btn-secondary'
-    p style="background-color: red" = 'Best Answer!'
+    = render partial: 'answers/mark_button', locals: { answer: answer }
+
     p id="body-answer-#{answer.id}"
       = answer.body
     - if current_user&.author_of?(answer)
