@@ -121,19 +121,16 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
-  describe 'action#mark_best' do
+  describe 'PATCH #mark_best' do
     context 'Author of question' do
       before { login(user)}
+      let!(:answer_last) { create :answer, question: question, author: user, best: true }
 
       it 'mark best answer' do
         patch :mark_best, params: { id: answer }, format: :js
-        expect(assigns(:answer).best).to eq true
-      end
 
-      it 'remove best answer mark' do
-        patch :mark_best, params: { id: answer }, format: :js
-        patch :mark_best, params: { id: answer }, format: :js
-        expect(assigns(:answer).best).to eq false
+        expect(Answer.where(best: true).count).to eq 1
+        expect(assigns(:answer).best).to eq true
       end
     end
 

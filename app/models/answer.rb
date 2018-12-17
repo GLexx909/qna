@@ -7,6 +7,7 @@ class Answer < ApplicationRecord
   scope :sort_by_best, -> { order(best: :desc, created_at: :asc) }
 
   def change_mark_best
-    self.best = !best
+    question.answers.update_all(best: false)
+    update(best: true)
   end
 end

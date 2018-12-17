@@ -22,19 +22,16 @@ feature 'Question Author can mark the best answer', %q{
     scenario 'is author of question tries to mark best answer. Test with reload page' do
       sign_in(user1)
       visit question_path(question)
+
+      expect(page).to_not have_content 'Best Answer!'
+
       click_on 'Mark as best answer'
 
       expect(page).to have_content 'Best Answer!'
-      expect(page).to_not have_button 'Mark as best answer'
 
       visit question_path(question)
 
       expect(page).to have_content 'Best Answer!'
-      expect(page).to_not have_button 'Mark as best answer'
-
-      click_on 'Cancel mark as best answer'
-
-      expect(page).to_not have_content 'Best Answer!'
       expect(page).to have_button 'Mark as best answer'
     end
 

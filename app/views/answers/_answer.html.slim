@@ -1,12 +1,3 @@
 - if answer.persisted?
-  .card.max-width-18-rem.mb-3.box-shadow-card
-    = render partial: 'answers/mark_button', locals: { answer: answer }
-
-    p id="body-answer-#{answer.id}"
-      = answer.body
-    - if current_user&.author_of?(answer)
-      .btn-group
-        = button_to 'Delete the Answer', answer, method: :delete, class: 'delete-answer-button btn btn-light btn-sm', remote: true
-        = button_to 'Edit', '#', class: 'edit-answer-link btn btn-light btn-sm', data: { answer_id: answer.id }
-
-    = render partial: 'answers/edit', locals: { answer: answer }
+  .card.max-width-18-rem.mb-3.box-shadow-card id="card-answer-#{answer.id}"
+    = render partial: 'answers/answer_block', locals: {answer: answer}
