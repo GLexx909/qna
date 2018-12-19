@@ -1,0 +1,14 @@
+.div-best-answer-button
+  = button_to 'Mark as best answer', mark_best_answer_path(answer), class: 'best-answer-button btn btn-secondary', method: :patch, remote: true if current_user&.author_of?(@question)
+
+.best-answer-mark id='best-answer-mark-#{answer.id}'
+  = 'Best Answer!' if answer.best?
+
+p = answer.body
+
+- if current_user&.author_of?(answer)
+  .btn-group
+    = button_to 'Delete the Answer', answer, method: :delete, class: 'delete-answer-button btn btn-light btn-sm', remote: true
+    = button_to 'Edit', '#', class: 'edit-answer-link btn btn-light btn-sm', data: { answer_id: answer.id }
+
+= render partial: 'answers/edit', locals: { answer: answer }

@@ -20,6 +20,14 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'GET #show' do
     before { get :show, params: { id: question } }
 
+    it 'assigns the requested question to @question' do
+      expect(assigns(:question)).to eq question
+    end
+
+    it 'assigns new answer for question' do
+      expect(assigns(:answer)).to be_a_new(Answer)
+    end
+
     it 'render show view' do
       expect(response).to render_template :show
     end
@@ -31,15 +39,6 @@ RSpec.describe QuestionsController, type: :controller do
 
     it 'render new view' do
       expect(response).to render_template :new
-    end
-  end
-
-  describe 'GET #edit' do
-    before { login(user) }
-    before { get :edit, params: { id: question } }
-
-    it 'render edit view' do
-      expect(response).to render_template :edit
     end
   end
 
@@ -74,41 +73,57 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    before { login(user) }
 
-    context 'with valid attributes' do
-      it 'assigns the requested question to @question' do
-        patch :update, params: { id: question, question: attributes_for(:question) }
-        expect(assigns(:question)).to eq question
+    describe 'Author' do
+      before { login(user) }
+
+      context 'with valid attributes' do
+        it 'assigns the requested question to @question' do
+          patch :update, params: { id: question, question: attributes_for(:question) }, format: :js
+          expect(assigns(:question)).to eq question
+        end
+
+        it 'changes question attributes' do
+          patch :update, params: { id: question, question: { title: 'new title', body: 'new body' } }, format: :js
+          question.reload
+
+          expect(question.title).to eq 'new title'
+          expect(question.body).to eq 'new body'
+        end
+
+        it 'render update view' do
+          patch :update, params: { id: question, question: attributes_for(:question) }, format: :js
+          expect(response).to render_template :update
+        end
       end
 
-      it 'changes question attributes' do
-        patch :update, params: { id: question, question: { title: 'new title', body: 'new body' } }
-        question.reload
+      context 'with invalid attributes' do
+        let!(:question) { create :question, title: 'MyTitle', body: 'MyBody', author: user }
+        before { patch :update, params: { id: question, question: attributes_for(:question, :invalid) }, format: :js }
 
-        expect(question.title).to eq 'new title'
-        expect(question.body).to eq 'new body'
-      end
+        it 'does not change question' do
+          question.reload
 
-      it 'redirects to updated question' do
-        patch :update, params: { id: question, question: attributes_for(:question) }
-        expect(response).to redirect_to question
+          expect(question.title).to eq 'MyTitle'
+          expect(question.body).to eq 'MyBody'
+        end
+
+        it 'render update view' do
+          expect(response).to render_template :update
+        end
       end
     end
 
-    context 'with invalid attributes' do
-      let!(:question) { create :question, title: 'MyTitle', body: 'MyBody', author: user }
-      before { patch :update, params: { id: question, question: attributes_for(:question, :invalid) } }
+    describe 'Not Author' do
+      let(:user1) { create :user }
+      before { login(user1) }
 
-      it 'does not change question' do
+      it 'tries to edit other user question' do
+        patch :update, params: { id: question, question: { title: 'new title', body: 'new body' }, format: :js }
         question.reload
 
-        expect(question.title).to eq 'MyTitle'
-        expect(question.body).to eq 'MyBody'
-      end
-
-      it 're-redirect edit view' do
-        expect(response).to render_template :edit
+        expect(question.title).to_not eq 'new title'
+        expect(question.body).to_not eq 'new body'
       end
     end
   end

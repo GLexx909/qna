@@ -13,7 +13,7 @@ feature 'Only author can delete the answer', %q{
   given!(:answer) { create :answer, question: question, author: user1 }
 
   describe 'Authenticated user' do
-    scenario 'is author, delete the answer' do
+    scenario 'is author, delete the answer', js: true do
       sign_in(user1)
       visit question_path(question)
       click_on 'Delete the Answer'

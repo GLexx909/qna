@@ -2,30 +2,36 @@ class AnswersController < ApplicationController
 
   before_action :authenticate_user!
 
-  def edit; end
-
   def create
     @answer = question.answers.new(answer_params)
     @answer.author = current_user
-
-    if @answer.save
-      redirect_to question
-    else
-      render 'questions/show'
-    end
+    @answer.save
   end
 
   def update
-    if answer.update(answer_params)
-      redirect_to @answer
+    if current_user.author_of?(answer)
+      answer.update(answer_params)
+      @question = answer.question
     else
-      render :edit
+      head 403
     end
   end
 
   def destroy
-    answer.destroy if current_user.author_of?(answer)
-    redirect_to question_path(answer.question)
+    if current_user.author_of?(answer)
+      answer.destroy
+    else
+      head 403
+    end
+  end
+
+  def mark_best
+    if current_user.author_of?(answer.question)
+      answer.change_mark_best
+      @question = answer.question
+    else
+      head 403
+    end
   end
 
   private

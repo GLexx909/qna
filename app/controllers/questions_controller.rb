@@ -12,9 +12,6 @@ class QuestionsController < ApplicationController
   def new
   end
 
-  def edit
-  end
-
   def create
     @question = Question.new(question_params)
     @question.author = current_user
@@ -26,16 +23,20 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if question.update(question_params)
-      redirect_to @question
+    if current_user.author_of?(question)
+      question.update(question_params)
     else
-      render :edit
+      head 403
     end
   end
 
   def destroy
-    question.destroy if current_user.author_of?(question)
-    redirect_to questions_path, notice: 'The Question was successfully deleted.'
+    if current_user.author_of?(question)
+      question.destroy
+      redirect_to questions_path, notice: 'The Question was successfully deleted.'
+    else
+      head 403
+    end
   end
 
   private
