@@ -9,16 +9,29 @@ class AnswersController < ApplicationController
   end
 
   def update
-    answer.update(answer_params) if current_user.author_of?(answer)
-    @question = answer.question
+    if current_user.author_of?(answer)
+      answer.update(answer_params)
+      @question = answer.question
+    else
+      head 403
+    end
   end
 
   def destroy
-    answer.destroy if current_user.author_of?(answer)
+    if current_user.author_of?(answer)
+      answer.destroy
+    else
+      head 403
+    end
   end
 
   def mark_best
-    answer.change_mark_best if current_user.author_of?(answer.question)
+    if current_user.author_of?(answer.question)
+      answer.change_mark_best
+      @question = answer.question
+    else
+      head 403
+    end
   end
 
   private

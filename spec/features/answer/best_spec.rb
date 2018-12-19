@@ -19,20 +19,25 @@ feature 'Question Author can mark the best answer', %q{
   end
 
   describe 'Authenticated user', js: true do
-    scenario 'is author of question tries to mark best answer. Test with reload page' do
+    given!(:answer2) { create :answer, question: question, author: user2 }
+    scenario 'is author of question tries to mark best answer' do
       sign_in(user1)
       visit question_path(question)
 
       expect(page).to_not have_content 'Best Answer!'
 
-      click_on 'Mark as best answer'
+      first('.card > div > form > input.btn').click
 
       expect(page).to have_content 'Best Answer!'
 
-      visit question_path(question)
+      #expect best answer is on first position of list
+      within(all('.answers .card').first) {
+        expect(page).to have_content 'Best Answer!'
+      }
 
-      expect(page).to have_content 'Best Answer!'
-      expect(page).to have_button 'Mark as best answer'
+      within(all('.answers .card').last) {
+        expect(page).to_not have_content 'Best Answer!'
+      }
     end
 
     scenario 'is NOT author of question tries to mark best answer' do

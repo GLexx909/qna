@@ -1,7 +1,8 @@
-= render partial: 'answers/mark_button', locals: { answer: answer } if current_user&.author_of?(@question)
+.div-best-answer-button
+  = button_to 'Mark as best answer', mark_best_answer_path(answer), class: 'best-answer-button btn btn-secondary', method: :patch, remote: true if current_user&.author_of?(@question)
 
 .best-answer-mark id='best-answer-mark-#{answer.id}'
-  = render partial: 'answers/best_answer_mark', locals: { answer: answer }
+  = 'Best Answer!' if answer.best?
 
 p = answer.body
 

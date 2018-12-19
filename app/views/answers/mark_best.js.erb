@@ -1,2 +1,1 @@
-$('.best-answer-mark').html('');
-$('#best-answer-mark-' + '<%= answer.id %>').html('<%= render 'best_answer_mark' %>');
+$('.answers').html('<%= j render @question.answers.sort_by_best %>');

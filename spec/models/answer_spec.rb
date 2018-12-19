@@ -7,24 +7,26 @@ RSpec.describe Answer, type: :model do
 
   let(:user) { create :user }
   let(:question) { create :question, author: user}
-  let(:answer) { create :answer, question: question, author: user}
 
-  describe 'method change_mark_best' do
+  describe '#change_mark_best' do
+    let!(:question) { create :question, author: user}
+    let!(:answer1) { create :answer, question: question, author: user }
+    let!(:answer2) { create :answer, question: question, author: user, best: true }
 
-    it 'should change answers.best true to false or false to true' do
-      answer.change_mark_best
-      expect(answer.best).to eq true
+    it 'should change answer.best from false to true' do
+      answer1.change_mark_best
+
+      expect(answer1).to be_best
+      expect(answer2.reload).to_not be_best
     end
   end
 
-  describe 'scope method sort_by_best' do
-
+  describe '.sort_by_best' do
     let!(:answer1) { create :answer, question: question, author: user}
     let!(:answer2) { create :answer, question: question, author: user, best: true}
     let!(:answer3) { create :answer, question: question, author: user}
 
     it 'best answer should be first' do
-
       expect(Answer.all.sort_by_best.first).to eq answer2
     end
   end
