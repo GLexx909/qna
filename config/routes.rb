@@ -5,6 +5,8 @@ Rails.application.routes.draw do
     resources :answers do
       patch :mark_best, on: :member
     end
+
+    delete :delete_file, on: :member
   end
 
   root 'questions#index'
