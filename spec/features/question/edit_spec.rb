@@ -47,6 +47,19 @@ feature 'User can edit his question', %q{
         expect(page).to have_content question.title
         expect(page).to have_selector('input', id: 'question_title')
       end
+
+      scenario 'edit question with attached file' do
+        sign_in user
+        visit question_path(question)
+        click_on 'Edit Question'
+
+        within ('.question-block') {
+          attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+          click_on 'Save'
+        }
+          expect(page).to have_link 'rails_helper.rb'
+          expect(page).to have_link 'spec_helper.rb'
+      end
     end
 
     describe 'Not Author' do

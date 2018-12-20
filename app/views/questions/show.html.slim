@@ -2,13 +2,9 @@
   = button_to 'Delete the Question', question_path(@question), method: :delete
   = button_to 'Edit Question', '#', class: 'edit-question-link'
 
-.question-block = render 'question_block'
+.question-block
+  = render 'question_block'
 
-- if @question.files.attached?
-  - @question.files.each do |file|
-    p = link_to file.filename.to_s, url_for(file)
-
-= render 'form'
 
 .answers = render @question.answers.sort_by_best
 

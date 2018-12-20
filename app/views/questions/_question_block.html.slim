@@ -1,2 +1,8 @@
 h1 = @question.title
 p = @question.body
+
+- if @question.files.attached?
+  - @question.files.each do |file|
+    p = link_to file.filename.to_s, url_for(file)
+
+.box-shadow-card.max-width-50vw.mb-4 = render 'form'
