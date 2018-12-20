@@ -7,5 +7,8 @@
   .field
     = f.label :body
     = f.text_area :body
+  .field
+    = f.label :files
+    = f.file_field :files, multiple: true
   .actions
     = f.submit 'Ask'

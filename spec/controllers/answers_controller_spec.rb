@@ -86,6 +86,11 @@ RSpec.describe AnswersController, type: :controller do
 
         expect(answer.body).to_not eq 'new body'
       end
+
+      it 'render status 403' do
+        patch :update, params: { id: answer, answer: { body: 'new body'} }, format: :js
+        expect(response).to have_http_status 403
+      end
     end
   end
 
@@ -114,9 +119,9 @@ RSpec.describe AnswersController, type: :controller do
         expect { delete :destroy, params: { id: answer }, format: :js}.to_not change(Answer, :count)
       end
 
-      it 'render destroy view' do
+      it 'render status 403' do
         delete :destroy, params: { id: answer }, format: :js
-        expect(response).to render_template :destroy
+        expect(response).to have_http_status 403
       end
     end
   end
@@ -132,6 +137,11 @@ RSpec.describe AnswersController, type: :controller do
         expect(Answer.where(best: true).count).to eq 1
         expect(assigns(:answer).best).to eq true
       end
+
+      it 'render mark_best view' do
+        patch :mark_best, params: { id: answer }, format: :js
+        expect(response).to render_template :mark_best
+      end
     end
 
     context 'Not Author of question' do
@@ -141,6 +151,11 @@ RSpec.describe AnswersController, type: :controller do
       it 'mark best answer' do
         patch :mark_best, params: { id: answer }, format: :js
         expect(assigns(:answer).best).to eq false
+      end
+
+      it 'render status 403' do
+        patch :mark_best, params: { id: answer }, format: :js
+        expect(response).to have_http_status 403
       end
     end
   end

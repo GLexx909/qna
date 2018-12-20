@@ -4,6 +4,9 @@
 
 .question-block = render 'question_block'
 
+- if @question.files.attached?
+  - @question.files.each do |file|
+    p = link_to file.filename.to_s, url_for(file)
 
 = render 'form'
 

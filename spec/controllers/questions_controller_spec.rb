@@ -125,6 +125,11 @@ RSpec.describe QuestionsController, type: :controller do
         expect(question.title).to_not eq 'new title'
         expect(question.body).to_not eq 'new body'
       end
+
+      it 'render status 403' do
+        patch :update, params: { id: question, question: { title: 'new title', body: 'new body' }, format: :js }
+        expect(response).to have_http_status 403
+      end
     end
   end
 
@@ -152,9 +157,9 @@ RSpec.describe QuestionsController, type: :controller do
         expect { delete :destroy, params: { id: question } }.to_not change(Question, :count)
       end
 
-      it 'redirect to index' do
+      it 'status 403' do
         delete :destroy, params: { id: question }
-        expect(response).to redirect_to questions_path
+        expect(response).to have_http_status 403
       end
     end
   end
