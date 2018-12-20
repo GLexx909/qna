@@ -1,8 +1,9 @@
 // Place all the styles related to the Answers controller here.
 // They will automatically be included in application.scss.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-.max-width-18-rem {
-  max-width: 18rem;
+.max-width-50vw {
+  width: auto;
+  max-width: 50vw;
 }
 
 .box-shadow-card {
@@ -11,4 +12,8 @@
 
 .best-answer-mark {
   background-color: burlywood;
+}
+
+.answer-form {
+  border: 1px solid darkslategrey;
 }
