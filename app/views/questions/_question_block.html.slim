@@ -1,3 +1,7 @@
+- if current_user&.author_of?(@question)
+  = button_to 'Delete the Question', question_path(@question), method: :delete
+  = button_to 'Edit Question', '#', class: 'edit-question-link'
+
 h1 = @question.title
 p = @question.body
 

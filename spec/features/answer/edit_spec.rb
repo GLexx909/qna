@@ -33,18 +33,36 @@ feature 'User can edit his answer', %q{
       end
     end
 
-    scenario 'edit answer with attached file', js: true do
-      sign_in user
-      visit question_path(question)
-      click_on 'Edit'
+    describe 'files action' do
+      scenario 'edit answer with attached file', js: true do
+        sign_in user
+        visit question_path(question)
+        click_on 'Edit'
 
-      within ('.answers') {
-        attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
-        click_on 'Save'
-      }
-      expect(page).to have_link 'rails_helper.rb'
-      expect(page).to have_link 'spec_helper.rb'
+        within ('.answers') {
+          attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+          click_on 'Save'
+        }
+
+        expect(page).to have_link 'rails_helper.rb'
+        expect(page).to have_link 'spec_helper.rb'
+      end
+
+      scenario 'edit answer: delete an attached file', js: true do
+        sign_in user
+        visit question_path(question)
+        click_on 'Edit'
+
+        within ('.answers') {
+          attach_file 'Files', "#{Rails.root}/spec/rails_helper.rb"
+          click_on 'Save'
+          click_on 'Delete file'
+        }
+
+        expect(page).to_not have_link 'rails_helper.rb'
+      end
     end
+
 
     scenario 'edit his answer with errors', js: true do
       sign_in user

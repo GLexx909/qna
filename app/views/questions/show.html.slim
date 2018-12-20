@@ -1,13 +1,2 @@
-- if current_user&.author_of?(@question)
-  = button_to 'Delete the Question', question_path(@question), method: :delete
-  = button_to 'Edit Question', '#', class: 'edit-question-link'
-
-.question-block
-  = render 'question_block'
-
-
-.answers = render @question.answers.sort_by_best
-
-.answer-errors
-
-.answer-form.box-shadow-card.max-width-50vw.p-3.mb-4 = render 'answers/form'
+.question-and-answers-block
+  = render 'question-and-answers-block'
