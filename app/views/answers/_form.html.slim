@@ -1,6 +1,9 @@
-= form_with model: [@question, @answer], class: 'new-answer' do |f|
+= form_with model: [@question, Answer.new], url: question_answers_path(@question), method: :post, class: 'new-answer' do |f|
   .field
     = f.label :body
     = f.text_area :body
+  .field
+    = f.label :files
+    = f.file_field :files, multiple: true, direct_upload: true
   .actions
     = f.submit 'Post Your Answer'

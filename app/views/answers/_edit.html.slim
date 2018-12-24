@@ -1,8 +1,13 @@
 div id='edit-answer-errors-#{answer.id}'
 
 - if current_user&.author_of?(answer)
-
-  = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
-    = f.label :body, 'Your answer'
-    = f.text_area :body
-    = f.submit 'Save'
+  .box-shadow-card.max-width-50vw.mb-4
+    = form_with model: answer, class: 'hidden answer-form p-3', html: { id: "edit-answer-#{answer.id}" } do |f|
+      .field
+        = f.label :body, 'Your answer'
+        = f.text_area :body
+      .field
+        = f.label :files
+        = f.file_field :files, multiple: true, direct_upload: true
+      .actions
+        = f.submit 'Save'

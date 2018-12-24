@@ -25,10 +25,20 @@ feature 'User can create answer', %q{
       end
     end
 
-    scenario 'asks a question with error', js: true do
+    scenario 'create an answer with error', js: true do
       click_on 'Post Your Answer'
 
       expect(page).to have_content "Body can't be blank"
+    end
+
+    scenario 'create an answer with attached file', js: true do
+      fill_in 'Body', with: 'text text text'
+
+      attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+      click_on 'Post Your Answer'
+
+      expect(page).to have_link 'rails_helper.rb'
+      expect(page).to have_link 'spec_helper.rb'
     end
   end
 
