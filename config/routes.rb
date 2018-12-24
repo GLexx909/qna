@@ -6,9 +6,9 @@ Rails.application.routes.draw do
       patch :mark_best, on: :member
       delete :delete_file, on: :member
     end
-
-    delete :delete_file, on: :member
   end
+
+  delete "destroy_file/:id", to: "attachments#destroy", as: "destroy_file"
 
   root 'questions#index'
 end

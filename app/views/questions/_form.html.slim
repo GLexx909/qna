@@ -1,6 +1,6 @@
 .edit-question-errors
 
-= form_with model: question, class: 'hidden question-edit-form answer-form p-3' do |f|
+= form_with model: @question, class: 'hidden question-edit-form answer-form p-3' do |f|
   .field
     = f.label :title
     = f.text_field :title

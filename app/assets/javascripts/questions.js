@@ -1,7 +1,8 @@
 $(document).on('turbolinks:load', function(){
-    $('.edit-question-link').on('click',  function(e){
+    $('.question-and-answers-block').on('click', '.edit-question-link', function(e){
         e.preventDefault();
         $(this).hide();
         $('form.question-edit-form').removeClass('hidden');
     });
 });
+

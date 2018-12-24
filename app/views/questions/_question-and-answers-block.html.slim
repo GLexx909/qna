@@ -1,9 +1,9 @@
 .question-block
-  = render 'question_block'
+  = render 'questions/question_block'
 
 
 .answers = render @question.answers.sort_by_best
 
 .answer-errors
 
-.answer-form.box-shadow-card.max-width-50vw.p-3.mb-4 = render 'answers/form'
+.answer-new-form.answer-form.box-shadow-card.max-width-50vw.p-3.mb-4 = render 'answers/form'

@@ -11,10 +11,18 @@ feature 'User can edit his answer', %q{
   given!(:question) { create :question, author: user }
   given!(:answer) { create :answer, question: question, author: user }
 
-  scenario 'Unauthenticated user can not edit answer' do
-    visit question_path(question)
+  describe "Unauthenticated user" do
+    scenario 'can not edit answer' do
+      visit question_path(question)
 
-    expect(page).to_not have_link 'Edit'
+      expect(page).to_not have_link 'Edit'
+    end
+
+    scenario 'can not delete file' do
+      visit question_path(question)
+
+      expect(page).to_not have_link 'Delete file'
+    end
   end
 
   describe 'Authenticated user' do
@@ -39,10 +47,10 @@ feature 'User can edit his answer', %q{
         visit question_path(question)
         click_on 'Edit'
 
-        within ('.answers') {
+        within ('.answers') do
           attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
           click_on 'Save'
-        }
+        end
 
         expect(page).to have_link 'rails_helper.rb'
         expect(page).to have_link 'spec_helper.rb'
@@ -53,13 +61,29 @@ feature 'User can edit his answer', %q{
         visit question_path(question)
         click_on 'Edit'
 
-        within ('.answers') {
+        within ('.answers') do
           attach_file 'Files', "#{Rails.root}/spec/rails_helper.rb"
           click_on 'Save'
           click_on 'Delete file'
-        }
+        end
 
         expect(page).to_not have_link 'rails_helper.rb'
+      end
+
+      scenario 'delete file of other user', js: true do
+        sign_in user
+        visit question_path(question)
+        click_on 'Edit'
+
+        within ('.answers') do
+          attach_file 'Files', "#{Rails.root}/spec/rails_helper.rb"
+          click_on 'Save'
+        end
+
+        sign_out #User
+        sign_in(user2)
+
+        expect(page).to_not have_link 'Delete file'
       end
     end
 

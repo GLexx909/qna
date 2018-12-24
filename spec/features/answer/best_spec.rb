@@ -31,13 +31,13 @@ feature 'Question Author can mark the best answer', %q{
       expect(page).to have_content 'Best Answer!'
 
       #expect best answer is on first position of list
-      within(all('.answers .card').first) {
+      within(all('.answers .card').first) do
         expect(page).to have_content 'Best Answer!'
-      }
+      end
 
-      within(all('.answers .card').last) {
+      within(all('.answers .card').last) do
         expect(page).to_not have_content 'Best Answer!'
-      }
+      end
     end
 
     scenario 'is NOT author of question tries to mark best answer' do
