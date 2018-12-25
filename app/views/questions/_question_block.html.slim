@@ -11,4 +11,10 @@ p = @question.body
       = link_to file.filename.to_s, url_for(file)
       = button_to 'Delete file', destroy_file_path(file.id), method: :delete, remote: true
 
+.links
+  p Links:
+  ul
+    - @question.links.each do |link|
+      li = link_to link.name, link.url
+
 .box-shadow-card.max-width-50vw.mb-4 = render 'questions/form'
