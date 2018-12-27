@@ -13,10 +13,7 @@ p = answer.body
       = button_to 'Delete file', destroy_file_path(file.id), method: :delete, remote: true if current_user&.author_of?(answer)
 
 .links
-  p Links:
-  ul
-    - answer.links.select {:persisted? }.each do |link|
-      li = link_to link.name, link.url, target: '_blank', rel: 'noopener'
+  = render 'shared/show_links', resource: answer if answer.links.first
 
 - if current_user&.author_of?(answer)
   .btn-group

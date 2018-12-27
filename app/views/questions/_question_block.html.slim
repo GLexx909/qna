@@ -12,9 +12,6 @@ p = @question.body
       = button_to 'Delete file', destroy_file_path(file.id), method: :delete, remote: true
 
 .links
-  p Links:
-  ul
-    - @question.links.each do |link|
-      li = link_to link.name, link.url, target: '_blank', rel: 'noopener'
+  = render 'shared/show_links', resource: @question if @question.links.first
 
 .box-shadow-card.max-width-50vw.mb-4 = render 'questions/form'
