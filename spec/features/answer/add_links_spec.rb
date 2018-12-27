@@ -16,6 +16,8 @@ feature 'User can add links to answer', %q{
     within('.answer-new-form') do
       fill_in 'Body', with: 'text text text'
 
+      click_on 'Add link'
+
       fill_in 'Link name', with: 'My gist'
       fill_in 'Url', with: gist_url
 

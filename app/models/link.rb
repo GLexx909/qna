@@ -5,6 +5,8 @@ class Link < ApplicationRecord
 
   before_save :to_correct
 
+  private
+
   def to_correct
     self.url = /^http/i.match(self.url) ? url : "http://#{url}"
   end
