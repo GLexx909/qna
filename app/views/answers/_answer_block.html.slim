@@ -16,7 +16,7 @@ p = answer.body
   p Links:
   ul
     - answer.links.select {:persisted? }.each do |link|
-      li = link_to link.name, link.url
+      li = link_to link.name, "http://#{link.url}" , target: '_blank'
 
 - if current_user&.author_of?(answer)
   .btn-group
