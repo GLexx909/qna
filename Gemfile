@@ -39,9 +39,10 @@ gem 'slim-rails'
 gem 'devise'
 gem 'bootstrap', '~> 4.1'
 gem 'jquery-rails'
-gem 'dotenv-rails'
+gem 'dotenv-rails' # ENV [secret_key]
 gem 'aws-sdk-s3', require: false
-gem 'cocoon'
+gem 'cocoon' # for nested form
+gem "validate_url"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
