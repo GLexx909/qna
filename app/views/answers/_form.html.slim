@@ -1,9 +1,18 @@
-= form_with model: [@question, Answer.new], url: question_answers_path(@question), method: :post, class: 'new-answer' do |f|
+= form_with model: [@question, @answer], url: question_answers_path(@question), method: :post, class: 'new-answer' do |f|
   .field
     = f.label :body
     = f.text_area :body
   .field
     = f.label :files
     = f.file_field :files, multiple: true, direct_upload: true
+  p Links:
+  p
+    = f.fields_for :links, @answer.links.build do |l|
+      p
+        = l.label :name, 'Link name'
+        = l.text_field :name
+      p
+        = l.label :url
+        = l.text_field :url
   .actions
     = f.submit 'Post Your Answer'

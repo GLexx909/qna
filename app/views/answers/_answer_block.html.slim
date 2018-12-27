@@ -12,6 +12,12 @@ p = answer.body
       = link_to file.filename.to_s, url_for(file)
       = button_to 'Delete file', destroy_file_path(file.id), method: :delete, remote: true if current_user&.author_of?(answer)
 
+.links
+  p Links:
+  ul
+    - answer.links.select {:persisted? }.each do |link|
+      li = link_to link.name, link.url
+
 - if current_user&.author_of?(answer)
   .btn-group
     = button_to 'Delete the Answer', answer, method: :delete, class: 'delete-answer-button btn btn-light btn-sm', remote: true
