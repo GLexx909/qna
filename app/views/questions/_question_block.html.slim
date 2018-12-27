@@ -15,5 +15,6 @@ p = @question.body
   p Links:
   ul
     - @question.links.each do |link|
-      li = link_to link.name, "http://#{link.url}", target: '_blank'
+      li = link_to link.name, "http://#{link.url}", target: '_blank', rel: 'noopener'
+
 .box-shadow-card.max-width-50vw.mb-4 = render 'questions/form'
