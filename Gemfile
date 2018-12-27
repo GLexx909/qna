@@ -41,6 +41,7 @@ gem 'bootstrap', '~> 4.1'
 gem 'jquery-rails'
 gem 'dotenv-rails'
 gem 'aws-sdk-s3', require: false
+gem 'cocoon'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
