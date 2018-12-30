@@ -4,11 +4,13 @@ class Link < ApplicationRecord
   validates :name, :url, presence: true
   validates :url, url: true
 
-  # before_save :to_correct
+  def gist_code
+    gist_id = self.url.split('/').last
+    GistGetService.new.call(gist_id).files.first[1].content
+  end
 
-  private
+  def gist?
+    self.url.match?(/^https:\/\/gist.github.com/)
+  end
 
-  # def to_correct
-  #   self.url = /^http/i.match(self.url) ? url : "http://#{url}"
-  # end
 end
