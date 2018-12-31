@@ -10,5 +10,7 @@ Rails.application.routes.draw do
 
   delete "destroy_file/:id", to: "attachments#destroy", as: "destroy_file"
 
+  delete "destroy_link/:id", to: "links#destroy", as: "destroy_link"
+
   root 'questions#index'
 end
