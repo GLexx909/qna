@@ -26,6 +26,6 @@ feature 'Author of question can assign a badge', %q{
     click_on 'Ask'
 
     expect(page).to have_content 'Your question successfully created.'
-    expect(user.questions.last.badge).to be_a_new(Badge)
+    expect(user.questions.last.badge).to be_a(Badge)
   end
 end

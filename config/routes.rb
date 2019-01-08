@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users
+  root 'questions#index'
 
   resources :questions, shallow: true do
     resources :answers do
@@ -12,5 +13,4 @@ Rails.application.routes.draw do
 
   delete "destroy_link/:id", to: "links#destroy", as: "destroy_link"
 
-  root 'questions#index'
 end

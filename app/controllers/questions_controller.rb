@@ -53,6 +53,6 @@ class QuestionsController < ApplicationController
     params.require(:question)
         .permit(:title, :body, files: [],
                 links_attributes: [:name, :url, :id, :_destroy],
-                badge_attributes: [:nama, :img])
+                badge_attributes: [:name, :img])
   end
 end

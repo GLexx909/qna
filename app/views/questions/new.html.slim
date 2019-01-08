@@ -10,10 +10,15 @@
   .field
     = f.label :files
     = f.file_field :files, multiple: true
-  p Links:
-  p
+
+  .add-link-form
     = f.fields_for :links do |l|
-    .links
-      = link_to_add_association 'Add link', f, :links, partial: 'shared/link_fields'
+      .links
+        = link_to_add_association 'Add link', f, :links, partial: 'shared/link_fields'
+
+  .add-badge-form
+    = link_to 'Assign badge', '#', class: 'badge-link'
+    .badge-form.hidden = render 'shared/badge_form', f:f
+
   .actions
     = f.submit 'Ask'
