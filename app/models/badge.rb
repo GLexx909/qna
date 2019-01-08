@@ -1,5 +1,5 @@
 class Badge < ApplicationRecord
   belongs_to :question
 
-  validates :name, :img
+  validates :name, :img, presence: true
 end

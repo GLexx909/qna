@@ -2,7 +2,7 @@ class Question < ApplicationRecord
   has_many :answers, dependent: :destroy, inverse_of: :question
   has_many :links, dependent: :destroy, as: :linkable
   belongs_to :author, class_name: 'User'
-  has_one :badge
+  has_one :badge, dependent: :destroy
 
   has_many_attached :files
 
