@@ -1,0 +1,13 @@
+table.table.table-striped.table-sm
+  thead.thead-dark
+    tr
+      th = "Question Title"
+      th = "Name"
+      th = "Img"
+  tbody
+  - @answers.each do |answer|
+    - if answer.question.badge
+      tr
+        td.align-middle = answer.question.title
+        td.align-middle = answer.question.badge.name
+        td.align-middle = image_tag answer.question.badge.img

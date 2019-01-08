@@ -10,4 +10,8 @@ class User < ApplicationRecord
   def author_of?(resource)
     id == resource.author_id
   end
+
+  def best_answers
+    answers.find_all(&:best?)
+  end
 end
