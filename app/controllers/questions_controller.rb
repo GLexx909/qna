@@ -11,7 +11,7 @@ class QuestionsController < ApplicationController
 
   def new
     question.links.new
-    question.badge.new
+    question.build_badge
   end
 
   def create
