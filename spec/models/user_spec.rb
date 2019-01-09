@@ -20,4 +20,13 @@ RSpec.describe User, type: :model do
       expect(user2).to_not be_author_of(question)
     end
   end
+  
+  describe 'User#best_answers' do
+    let!(:answer1) { create :answer, question: question, author: user1, best: true}
+    let!(:answer2) { create :answer, question: question, author: user1, best: false}
+
+    it 'should return only best answers' do
+      expect(user1.best_answers.count).to eq(1)
+    end
+  end
 end
