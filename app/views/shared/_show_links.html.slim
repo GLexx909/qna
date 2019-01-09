@@ -4,4 +4,4 @@ ul
     li = link_to link.name, link.url, target: '_blank', rel: 'noopener'
     - if link.gist?
       .gist-code.mr-5 = link.gist_code
-    = button_to 'Delete link', destroy_link_path(link), method: :delete, remote: true if current_user&.author_of?(link.linkable)
+    = button_to 'Delete link', link_path(link), method: :delete, remote: true if current_user&.author_of?(link.linkable)

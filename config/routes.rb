@@ -9,11 +9,11 @@ Rails.application.routes.draw do
     end
   end
 
-  delete "destroy_file/:id", to: "attachments#destroy", as: "destroy_file"
-  delete "destroy_link/:id", to: "links#destroy", as: "destroy_link"
+  resources :attachments, only: :destroy
+  resources :links, only: :destroy
 
   namespace :my do
-    get 'badges', to: 'badges#index'
+    resources :badges, only: :index
   end
 
 end

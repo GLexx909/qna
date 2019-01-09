@@ -2,7 +2,7 @@ class Link < ApplicationRecord
   belongs_to :linkable, polymorphic: true
 
   validates :name, :url, presence: true
-  validates :url, url: true
+  validates :url, url: true #gem 'validate_url'
 
   def gist_code
     gist_id = self.url.split('/').last

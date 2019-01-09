@@ -12,6 +12,6 @@ class User < ApplicationRecord
   end
 
   def best_answers
-    answers.find_all(&:best?)
+    answers.where(best: true)
   end
 end
