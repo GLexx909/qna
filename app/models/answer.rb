@@ -11,6 +11,7 @@ class Answer < ApplicationRecord
   validates :body, presence: :true
 
   scope :sort_by_best, -> { order(best: :desc, created_at: :asc) }
+  scope :best, -> { where(best: true) }
 
   def change_mark_best
     Answer.transaction do

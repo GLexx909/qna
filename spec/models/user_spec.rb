@@ -26,7 +26,7 @@ RSpec.describe User, type: :model do
     let!(:answer2) { create :answer, question: question, author: user1, best: false}
 
     it 'should return only best answers' do
-      expect(user1.best_answers.count).to eq(1)
+      expect(user1.answers.best.count).to eq(1)
     end
   end
 end
