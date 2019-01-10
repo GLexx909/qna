@@ -20,7 +20,7 @@ feature 'User can see his badges list', %q{
     user.answers.best.each do |answer|
       expect(page).to have_content answer.question.title
       expect(page).to have_content answer.question.badge.name
-      expect(page).to have_css("img[src*='#{answer.question.badge.img}']")
+      expect(page).to have_css("img")
     end
   end
 end

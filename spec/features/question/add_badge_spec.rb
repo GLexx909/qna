@@ -10,7 +10,7 @@ feature 'Author of question can assign a badge', %q{
   given(:user) { create :user}
   given(:question) { create :question, author: user }
 
-  scenario 'User adds link when asks question', js: true do
+  scenario 'User add badge when asks a question', js: true do
     sign_in(user)
     visit questions_path
     click_on 'Ask question'
@@ -21,7 +21,7 @@ feature 'Author of question can assign a badge', %q{
     click_on 'Assign badge'
 
     fill_in 'Name', with: 'Test Badge Name'
-    fill_in 'Img', with: 'Test Badge Image'
+    attach_file 'Img', "#{Rails.root}/spec/rails_helper.rb"
 
     click_on 'Ask'
 
