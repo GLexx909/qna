@@ -9,5 +9,5 @@ table.table.table-striped.table-sm
     - if answer.question.badge
       tr
         td.align-middle = answer.question.title
-        td.align-middle = answer.question.badge.name
-        td.align-middle = image_tag url_for(answer.question.badge.img), size: '50'
+        td.align-middle = answer.badge.name
+        td.align-middle = image_tag url_for(answer.badge.img), size: '50'

@@ -1,7 +1,8 @@
 p Links:
 ul
-  - resource.links.select {:persisted? }.each do |link|
-    li = link_to link.name, link.url, target: '_blank', rel: 'noopener'
+  - resource.links.each do |link|
+    - if link.persisted?
+      li = link_to link.name, link.url, target: '_blank', rel: 'noopener'
     - if link.gist?
       .gist-code.mr-5 = link.gist_code
     = button_to 'Delete link', link_path(link), method: :delete, remote: true if current_user&.author_of?(link.linkable)

@@ -13,6 +13,8 @@ class Answer < ApplicationRecord
   scope :sort_by_best, -> { order(best: :desc, created_at: :asc) }
   scope :best, -> { where(best: true) }
 
+  delegate :badge, to: :question
+
   def change_mark_best
     Answer.transaction do
       question.answers.update_all(best: false)
