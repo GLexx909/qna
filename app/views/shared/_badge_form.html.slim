@@ -1,0 +1,8 @@
+p Badge:
+= f.fields_for :badge do |b|
+  .field
+    = b.label :name
+    = b.text_field :name
+  .field
+    = b.label :img
+    = b.file_field :img, direct_upload: true

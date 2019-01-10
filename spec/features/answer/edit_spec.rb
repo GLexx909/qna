@@ -87,7 +87,6 @@ feature 'User can edit his answer', %q{
       end
     end
 
-
     scenario 'edit his answer with errors', js: true do
       sign_in user
       visit question_path(question)
@@ -101,6 +100,23 @@ feature 'User can edit his answer', %q{
         expect(page).to have_content answer.body
         expect(page).to have_selector 'textarea'
       end
+    end
+
+    scenario 'edit answer: add link', js: true do
+      sign_in user
+      visit question_path(question)
+
+      within ('.card') do
+        click_on 'Edit'
+        click_on 'Add link'
+
+        fill_in 'Link name', with: 'MyLink'
+        fill_in 'Url', with: 'http://example.com'
+
+        click_on 'Save'
+      end
+
+      expect(page).to have_link 'MyLink', href: 'http://example.com'
     end
 
     scenario "tries to edit other user's answer" do

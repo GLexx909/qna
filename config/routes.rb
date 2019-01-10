@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users
+  root 'questions#index'
 
   resources :questions, shallow: true do
     resources :answers do
@@ -8,7 +9,11 @@ Rails.application.routes.draw do
     end
   end
 
-  delete "destroy_file/:id", to: "attachments#destroy", as: "destroy_file"
+  resources :attachments, only: :destroy
+  resources :links, only: :destroy
 
-  root 'questions#index'
+  namespace :my do
+    resources :badges, only: :index
+  end
+
 end

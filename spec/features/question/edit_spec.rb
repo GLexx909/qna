@@ -96,6 +96,23 @@ feature 'User can edit his question', %q{
         end
       end
 
+      scenario 'edit question: add link', js: true do
+        sign_in(user)
+        visit question_path(question)
+
+        within ('.question-block') do
+          click_on 'Edit'
+          click_on 'Add link'
+
+          fill_in 'Link name', with: 'MyLink'
+          fill_in 'Url', with: 'http://example.com'
+
+          click_on 'Save'
+        end
+
+        expect(page).to have_link 'MyLink', href: 'http://example.com'
+      end
+
     end
 
     describe 'Not Author' do

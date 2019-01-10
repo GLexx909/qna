@@ -1,4 +1,7 @@
 $('.answer-errors').html('<%= render 'shared/errors', resource: @answer %>');
 
-$('.answers').append('<%= j render answer %>');
-$('.answer-new-form').html('<%= j render 'answers/form' %>');
+<% if !@answer.errors.present? %>
+  $('.answers').append('<%= j render answer %>');
+  $('.answer-new-form').html('<%= j render 'answers/form' %>');
+  $('.answer-new-form #answer_body').val('');
+<% end %>

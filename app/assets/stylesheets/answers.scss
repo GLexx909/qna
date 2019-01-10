@@ -1,9 +1,6 @@
 // Place all the styles related to the Answers controller here.
 // They will automatically be included in application.scss.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-.max-width-50vw {
-  max-width: 50vw;
-}
 
 .box-shadow-card {
   box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, .05);
@@ -15,4 +12,10 @@
 
 .answer-form {
   border: 1px solid darkslategrey;
+}
+
+.gist-code {
+  white-space: pre-wrap;
+  background-color: #eff0f1;
+  padding: 5px;
 }

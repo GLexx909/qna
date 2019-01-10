@@ -1,8 +1,9 @@
 nav.navbar.navbar-dark.bg-dark
   .navbar-brand = link_to 'QNA', root_path
 
-  - if user_signed_in?
-    li.nav-item = link_to 'Sign out',  destroy_user_session_path, method: :delete
-  - else
-    li.nav-item = link_to 'Sign up', new_user_registration_path
-    / li.nav-item = link_to 'Log in', new_user_session_path
+  ul.nav.list-inline
+    - if user_signed_in?
+      li.list-inline-item = link_to 'My Badges', my_badges_path, class: 'nav-link'
+      li.list-inline-item = link_to 'Sign out',  destroy_user_session_path, method: :delete, class: 'nav-link'
+    - else
+      li.list-inline-item = link_to 'Sign up', new_user_registration_path, class: 'nav-link'

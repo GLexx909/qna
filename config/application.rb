@@ -23,5 +23,7 @@ module Qna
                        routing_specs: false,
                        reqiest_specs: false
     end
+
+    config.autoload_paths << "#{Rails.root}/lib/clients"
   end
 end
