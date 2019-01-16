@@ -22,5 +22,13 @@ $(document).on('turbolinks:load', function(){
         $('.badge-form').toggle('hidden');
     });
 
+    // Vote update
+
+    $('.question-block').on('ajax:success', function(e) {
+        var rating = e.detail[0];
+
+        $('.question-block .rating').html('<b>' + rating + '</b>');
+    })
+
 });
 

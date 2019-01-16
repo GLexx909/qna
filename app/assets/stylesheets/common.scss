@@ -1,3 +1,26 @@
 .hidden {
   display: none;
 }
+
+.vote-up {
+
+  :hover {
+    opacity: .7;
+  }
+
+  :active {
+    opacity: .5;
+  }
+}
+
+.vote-down {
+
+  :hover {
+    opacity: .7;
+  }
+
+  :active {
+    opacity: .5;
+  }
+}
+

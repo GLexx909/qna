@@ -37,7 +37,11 @@ gem 'jbuilder', '~> 2.5'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'slim-rails'
 gem 'devise'
+
+#Style
 gem 'bootstrap', '~> 4.1'
+gem 'octicons_helper'
+
 gem 'jquery-rails'
 gem 'dotenv-rails' # ENV [secret_key]
 gem 'aws-sdk-s3', require: false

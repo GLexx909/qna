@@ -9,7 +9,7 @@ module Votable
     votes.sum(:value)
   end
 
-  def voted?
-    votes.exists?(user: current_user)
+  def voted?(current_user)
+    votes.where(user_id: current_user.id).exists?
   end
 end
