@@ -2,18 +2,8 @@
   display: none;
 }
 
-.vote-up {
-
-  :hover {
-    opacity: .7;
-  }
-
-  :active {
-    opacity: .5;
-  }
-}
-
-.vote-down {
+.vote {
+  opacity: .2;
 
   :hover {
     opacity: .7;

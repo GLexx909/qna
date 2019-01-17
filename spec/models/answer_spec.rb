@@ -1,6 +1,13 @@
 require 'rails_helper'
+require Rails.root.join "spec/models/concerns/votable_spec.rb"
 
 RSpec.describe Answer, type: :model do
+  it_behaves_like 'WithVotable' do
+    let(:user) { create(:user)}
+    let(:question) { create(:question, author: user) }
+    let(:votable) { create(:answer, question: question, author: user) }
+  end
+
   it { should belong_to :question }
   it { should belong_to :author }
   it { should have_many( :links).dependent(:destroy)}

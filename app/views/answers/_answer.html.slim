@@ -1,3 +1,10 @@
 - if answer.persisted?
-  .card.mb-3.box-shadow-card id="card-answer-#{answer.id}"
-    = render partial: 'answers/answer_block', locals: {answer: answer}
+  .container-fluid.mt-4 class='answer-vote-#{answer.id}'
+    .row
+      .col-sm-1
+        .text-center.vote.vote-up = link_to (octicon "chevron-up", height: 32), vote_up_answer_path(answer), remote: true, method: :patch
+        .text-center.rating
+          b = answer.rating
+        .text-center.vote.vote-down = link_to (octicon "chevron-down", height: 32), vote_down_answer_path(answer), remote: true, method: :patch
+      .col-sm-11.card.mb-3.box-shadow-card id="card-answer-#{answer.id}"
+        = render partial: 'answers/answer_block', locals: {answer: answer}

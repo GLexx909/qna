@@ -25,7 +25,7 @@ $(document).on('turbolinks:load', function(){
     // Vote update
 
     $('.question-block').on('ajax:success', function(e) {
-        var rating = e.detail[0];
+        var rating = e.detail[0]['rating'];
 
         $('.question-block .rating').html('<b>' + rating + '</b>');
     })
