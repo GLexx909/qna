@@ -13,7 +13,7 @@ $(document).on('turbolinks:load', function(){
     $('.add-badge-form').on('click','a.badge-link', function(e){
         e.preventDefault();
 
-        if ($(this).text() == 'Remove badge') {
+        if ($(this).text() === 'Remove badge') {
             $(this).text('Assign badge');
         }else{
             $(this).text('Remove badge');
@@ -24,11 +24,14 @@ $(document).on('turbolinks:load', function(){
 
     // Vote update
 
-    $('.question-block').on('ajax:success', function(e) {
-        var rating = e.detail[0]['rating'];
+    $('.question-block').on('ajax:success', '.vote', function(e) {
+        let rating = e.detail[0]['rating'];
 
-        $('.question-block .rating').html('<b>' + rating + '</b>');
+        // При повторном нажатии (если обьект и так создан), rating возвращает undefined, хотя прослушка вообще срабатывать не должна.
+        // вернее ajax не success же!
+        if (rating !== undefined) {
+            $('.question-block .rating').html('<b>' + rating + '</b>');
+        }
     })
-
 });
 

@@ -13,4 +13,7 @@ class User < ApplicationRecord
     id == resource.author_id
   end
 
+  def voted?(resource)
+    votes.where(votable: resource).exists?
+  end
 end

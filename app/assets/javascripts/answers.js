@@ -12,13 +12,11 @@ $(document).on('turbolinks:load', function() {
 
     // Vote update
 
-    $('.answers').on('ajax:success', function(e) {
+    $('.answers').on('ajax:success', '.vote', function(e) {
         var xhr = e.detail[0];
         var rating = xhr['rating'];
         var answerId = xhr['votable_id'];
 
         $('.answer-vote-' + answerId + ' .rating').html('<b>' + rating + '</b>');
     });
-
-
 });

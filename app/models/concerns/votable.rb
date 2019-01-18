@@ -9,7 +9,25 @@ module Votable
     votes.sum(:value)
   end
 
-  def voted?(current_user)
-    votes.where(user_id: current_user.id).exists?
+  def vote_up(user)
+    if user_vote(user)&.value == -1
+      user_vote(user).destroy
+    elsif !user_vote(user)
+      votes.create(user: user, value: 1)
+    end
+  end
+
+  def vote_down(user)
+    if user_vote(user)&.value == 1
+      user_vote(user).destroy
+    elsif !user_vote(user)
+      votes.create(user: user, value: -1)
+    end
+  end
+
+  private
+
+  def user_vote(user)
+    votes.find_by(user_id: user.id)
   end
 end

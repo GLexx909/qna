@@ -30,4 +30,14 @@ RSpec.describe User, type: :model do
       expect(user1.answers.best.count).to eq(1)
     end
   end
+
+  describe 'User#voted?(votable)' do
+    let(:votable) { create :question, author: user1 }
+
+    it 'should return true if user vote for votable' do
+      create(:vote, votable: votable, user: user2)
+
+      expect(user2.voted?(votable)).to eq true
+    end
+  end
 end

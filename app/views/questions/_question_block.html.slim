@@ -4,14 +4,8 @@
 
 .container-fluid.mt-4
   .row
-    .col-sm-1.question-vote
-      .text-center.vote.vote-up = link_to (octicon "chevron-up", height: 32), vote_up_question_path(@question), remote: true, method: :patch
-
-      .text-center.rating
-        b = @question.rating
-
-      .text-center.vote.vote-down = link_to (octicon "chevron-down", height: 32), vote_down_question_path(@question), remote: true, method: :patch
-
+    .col-sm-1
+      = render 'shared/vote_links', resource: @question
     .col-sm-11
       h1 = @question.title
       p = @question.body

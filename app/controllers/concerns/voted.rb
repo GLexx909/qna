@@ -6,43 +6,11 @@ module Voted
   end
 
   def vote_up
-    if current_user&.author_of?(@votable)
-      head 403
-    else
-      number = if @votable.voted?(current_user)
-                 user_vote.value == -1 ? 0 : 1
-               end
-
-      respond_to do |format|
-        if user_vote
-          user_vote.update(value: number)
-          format.json { render json: {rating: @votable.rating, votable_id: @votable.id } }
-        else
-          @votable.votes.create(user_id: current_user.id, value: number)
-          format.json { render json: {rating: @votable.rating, votable_id: @votable.id } }
-        end
-      end
-    end
+    vote_responce(:vote_up)
   end
 
   def vote_down
-    if current_user&.author_of?(@votable)
-      head 403
-    else
-      number = if @votable.voted?(current_user)
-                 user_vote.value == 1 ? 0 : -1
-               end
-
-      respond_to do |format|
-        if user_vote
-          user_vote.update(value: number)
-          format.json { render json: {rating: @votable.rating, votable_id: @votable.id } }
-        else
-          @votable.votes.create(user_id: current_user.id, value: number)
-          format.json { render json: {rating: @votable.rating, votable_id: @votable.id } }
-        end
-      end
-    end
+    vote_responce(:vote_down)
   end
 
   private
@@ -55,7 +23,13 @@ module Voted
     @votable = model_klass.find(params[:id])
   end
 
-  def user_vote
-    @votable.votes.find_by(user_id: current_user.id)
+  def vote_responce(vote_method)
+    return head 403 if current_user&.author_of?(@votable)
+
+    if @votable.send vote_method, current_user
+      render json: {rating: @votable.rating, votable_id: @votable.id }
+    else
+      head 208
+    end
   end
 end
