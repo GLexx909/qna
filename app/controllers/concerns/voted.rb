@@ -6,11 +6,11 @@ module Voted
   end
 
   def vote_up
-    vote_responce(:vote_up)
+    vote_response(:vote_up)
   end
 
   def vote_down
-    vote_responce(:vote_down)
+    vote_response(:vote_down)
   end
 
   private
@@ -23,13 +23,13 @@ module Voted
     @votable = model_klass.find(params[:id])
   end
 
-  def vote_responce(vote_method)
+  def vote_response(vote_method)
     return head 403 if current_user&.author_of?(@votable)
 
-    if @votable.send vote_method, current_user
+    if @votable.send(vote_method, current_user)
       render json: {rating: @votable.rating, votable_id: @votable.id }
     else
-      head 208
+      head 403
     end
   end
 end

@@ -6,7 +6,7 @@ shared_examples "voted" do
     context 'not author can vote' do
       before { login(user2) }
 
-      it 'update vote' do
+      it 'create vote' do
         expect { post :vote_up, params: { id: votable }, format: :json }.to change(Vote, :count).by 1
       end
     end
@@ -25,7 +25,7 @@ shared_examples "voted" do
     context 'not author can vote' do
       before { login(user2) }
 
-      it 'update vote' do
+      it 'create vote' do
         expect { post :vote_up, params: { id: votable }, format: :json }.to change(Vote, :count).by 1
       end
     end

@@ -74,15 +74,13 @@ feature 'User can vote for an answer', %q{
 
     scenario 'vote up', js: true do
       within(".answer-vote-#{answer.id}") do
-        find('.vote-up').click
-        expect(page).to have_content '0'
+        expect(page).to_not have_css 'vote-up'
       end
     end
 
     scenario 'vote down', js: true do
       within(".answer-vote-#{answer.id}") do
-        find('.vote-down').click
-        expect(page).to have_content '0'
+        expect(page).to_not have_css 'vote-down'
       end
     end
   end

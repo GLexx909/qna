@@ -27,11 +27,7 @@ $(document).on('turbolinks:load', function(){
     $('.question-block').on('ajax:success', '.vote', function(e) {
         let rating = e.detail[0]['rating'];
 
-        // При повторном нажатии (если обьект и так создан), rating возвращает undefined, хотя прослушка вообще срабатывать не должна.
-        // вернее ajax не success же!
-        if (rating !== undefined) {
-            $('.question-block .rating').html('<b>' + rating + '</b>');
-        }
+        $('.question-block .rating').html('<b>' + rating + '</b>');
     })
 });
 
