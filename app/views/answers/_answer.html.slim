@@ -1,3 +1,7 @@
 - if answer.persisted?
-  .card.mb-3.box-shadow-card id="card-answer-#{answer.id}"
-    = render partial: 'answers/answer_block', locals: {answer: answer}
+  .container-fluid.mt-4 class='answer-vote-#{answer.id}'
+    .row
+      .col-sm-1
+        = render 'shared/vote_links', resource: answer
+      .col-sm-11.card.mb-3.box-shadow-card id="card-answer-#{answer.id}"
+        = render partial: 'answers/answer_block', locals: {answer: answer}

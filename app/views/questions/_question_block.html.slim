@@ -2,8 +2,13 @@
   = button_to 'Delete the Question', question_path(@question), method: :delete
   = button_to 'Edit Question', '#', class: 'edit-question-link'
 
-h1 = @question.title
-p = @question.body
+.container-fluid.mt-4
+  .row
+    .col-sm-1
+      = render 'shared/vote_links', resource: @question
+    .col-sm-11
+      h1 = @question.title
+      p = @question.body
 
 - if @question.files.attached?
   - @question.files.each do |file|

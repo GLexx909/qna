@@ -13,7 +13,7 @@ $(document).on('turbolinks:load', function(){
     $('.add-badge-form').on('click','a.badge-link', function(e){
         e.preventDefault();
 
-        if ($(this).text() == 'Remove badge') {
+        if ($(this).text() === 'Remove badge') {
             $(this).text('Assign badge');
         }else{
             $(this).text('Remove badge');
@@ -22,5 +22,12 @@ $(document).on('turbolinks:load', function(){
         $('.badge-form').toggle('hidden');
     });
 
+    // Vote update
+
+    $('.question-block').on('ajax:success', '.vote', function(e) {
+        let rating = e.detail[0]['rating'];
+
+        $('.question-block .rating').html('<b>' + rating + '</b>');
+    })
 });
 

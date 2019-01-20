@@ -1,5 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
+  include Voted
 
   def index
     @questions = Question.all
@@ -25,7 +26,7 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if current_user.author_of?(question)
+    if current_user&.author_of?(question)
       question.update(question_params)
     else
       head 403
@@ -33,7 +34,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    if current_user.author_of?(question)
+    if current_user&.author_of?(question)
       question.destroy
       redirect_to questions_path, notice: 'The Question was successfully deleted.'
     else

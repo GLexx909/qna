@@ -1,0 +1,6 @@
+.text-center = link_to (octicon "chevron-up", height: 32), polymorphic_url([:vote_up, resource]), class: 'vote vote-up',
+                                              remote: true, method: :post unless current_user&.author_of?(resource)
+.text-center.rating
+  b = resource.rating
+.text-center = link_to (octicon "chevron-down", height: 32), polymorphic_url([:vote_down, resource]), class: 'vote vote-down',
+                                                remote: true, method: :post unless current_user&.author_of?(resource)
