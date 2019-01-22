@@ -28,6 +28,18 @@ $(document).on('turbolinks:load', function(){
         let rating = e.detail[0]['rating'];
 
         $('.question-block .rating').html('<b>' + rating + '</b>');
-    })
+    });
+
+    // Question Cable
+
+    App.cable.subscriptions.create('QuestionsChannel', {
+        connected: function () {
+            return this.perform('follow');
+        },
+
+        received: function (data) {
+            $('.questions-list').append(data);
+        }
+    });
 });
 

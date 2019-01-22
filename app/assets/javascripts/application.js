@@ -15,6 +15,7 @@
 //= require turbolinks
 //= require jquery3
 //= require popper
+//= require action_cable
 //= require bootstrap-sprockets
 //= require cocoon
 //= require_tree .
@@ -60,3 +61,7 @@ addEventListener("direct-upload:end", event => {
     const element = document.getElementById(`direct-upload-${id}`);
     element.classList.add("direct-upload--complete")
 });
+
+
+// var App = App || {};
+// App.cable = ActionCable.createConsumer();

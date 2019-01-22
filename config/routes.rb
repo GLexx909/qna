@@ -23,4 +23,5 @@ Rails.application.routes.draw do
     resources :badges, only: :index
   end
 
+  mount ActionCable.server => '/cable' #Запросы по адресу "наш_хост.cable" будут обрабатываться сервером ActionCable
 end
