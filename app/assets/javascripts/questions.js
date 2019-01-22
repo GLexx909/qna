@@ -30,7 +30,7 @@ $(document).on('turbolinks:load', function(){
         $('.question-block .rating').html('<b>' + rating + '</b>');
     });
 
-    // Question Cable
+    // Question Cable index.html
 
     App.cable.subscriptions.create('QuestionsChannel', {
         connected: function () {
@@ -38,8 +38,13 @@ $(document).on('turbolinks:load', function(){
         },
 
         received: function (data) {
-            $('.questions-list').append(data);
+             //if question was created
+            if (data['action'] === 'create') {
+                $('.questions-list').append(data['data']);
+             //if question was deleted
+            }else if (data['action'] === 'delete'){
+                $('.question-' + data['data']).remove();
+            }
         }
     });
 });
-

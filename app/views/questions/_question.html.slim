@@ -1,5 +1,3 @@
-b = question.title
-br
-= link_to 'Answers', question
-br
-br
+.div class="question-#{question.id}"
+  b = question.title
+  p = link_to 'Answers', question

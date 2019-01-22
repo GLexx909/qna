@@ -2,6 +2,7 @@ class QuestionsController < ApplicationController
   include Voted
   before_action :authenticate_user!, except: [:index, :show]
   after_action :publish_question, only: [:create]
+  after_action :delete_question, only: [:destroy]
 
   def index
     @questions = Question.all
@@ -55,11 +56,17 @@ class QuestionsController < ApplicationController
     return if question.errors.any?
 
     ActionCable.server.broadcast(
-        'questions',
+        'questions', {action: 'create', data:
         ApplicationController.render(
           partial: 'questions/question',
           locals: { question: question }
-        )
+        )}
+    )
+  end
+
+  def delete_question
+    ActionCable.server.broadcast(
+        'questions', {action: 'delete', data: question.id}
     )
   end
 
