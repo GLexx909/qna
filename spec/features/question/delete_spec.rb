@@ -76,5 +76,4 @@ feature 'Only author can delete the question', %q{
       end
     end
   end
-
 end
