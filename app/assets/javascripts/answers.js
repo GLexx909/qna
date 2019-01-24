@@ -27,8 +27,7 @@ $(document).on('turbolinks:load', function() {
 
         received: function (data) {
             answer_files = data['answer_files'];
-            console.log(answer_files);
-            if (gon.user_id !== data['author']) {
+            if (gon.user_id !== data['author'] && data['action'] === 'create') {
                 ($(".answers").append(JST["templates/answer"]({id: data['answer_id'],
                                                                answer_body: data['answer_body'],
                                                               })
@@ -55,6 +54,8 @@ $(document).on('turbolinks:load', function() {
                     });
                 }
                 render_links()
+            } else if (gon.user_id !== data['author'] && data['action'] === 'delete') {
+                $('.answer-vote-'+ data['answer_id']).remove();
             }
         }
     });

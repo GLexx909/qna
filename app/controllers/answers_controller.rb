@@ -2,6 +2,7 @@ class AnswersController < ApplicationController
   include Voted
   before_action :authenticate_user!
   after_action :publish_answer, only: [:create]
+  after_action :delete_answer, only: [:destroy]
 
   def create
     @answer = question.answers.new(answer_params)
@@ -84,6 +85,12 @@ class AnswersController < ApplicationController
                     answer_files: files,
                     answer_links: links,
                     author: answer.author.id}
+    )
+  end
+
+  def delete_answer
+    ActionCable.server.broadcast(
+        'answers', {action: 'delete', answer_id: answer.id}
     )
   end
 
