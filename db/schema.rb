@@ -59,11 +59,11 @@ ActiveRecord::Schema.define(version: 2019_01_24_104722) do
     t.string "body"
     t.string "commentable_type"
     t.bigint "commentable_id"
-    t.bigint "user_id"
+    t.bigint "author_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["author_id"], name: "index_comments_on_author_id"
     t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable_type_and_commentable_id"
-    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "links", force: :cascade do |t|
@@ -110,6 +110,6 @@ ActiveRecord::Schema.define(version: 2019_01_24_104722) do
 
   add_foreign_key "answers", "questions"
   add_foreign_key "answers", "users", column: "author_id"
-  add_foreign_key "comments", "users"
+  add_foreign_key "comments", "users", column: "author_id"
   add_foreign_key "questions", "users", column: "author_id"
 end

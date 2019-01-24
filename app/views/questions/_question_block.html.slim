@@ -20,3 +20,14 @@
   = render 'shared/show_links', resource: @question if @question.links.first
 
 .box-shadow-card.max-width-50vw.mb-4 = render 'questions/form'
+
+hr
+
+.question-comments-block
+  .question-comments-body = render @question.comments.sort_by_time
+  .container-fluid
+    .row
+      .col-sm-1
+      .col-sm-11
+        .text-md-right = link_to 'Comment this', '#', remote: true, class: 'question-comments__add-button'
+        .question-comment-form.hidden = render 'shared/comment_form', resource: @question

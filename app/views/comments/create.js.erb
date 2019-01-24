@@ -1,0 +1,7 @@
+$('.question-comment__errors').html('<%= render 'shared/errors', resource: @comment %>');
+
+<% if !@comment.errors.present? %>
+  $('.question-comments-body').append('<%= render 'comments/comment', comment: @comment  %>');
+  $('.question-comment__form-new #comment_body').val('');
+  $('.question-comment-form').addClass('hidden');
+<% end %>

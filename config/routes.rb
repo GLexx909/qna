@@ -10,7 +10,10 @@ Rails.application.routes.draw do
   end
 
   resources :questions, concerns: [:votable], shallow: true do
+    resources :comments, only: [:create, :destroy]
+
     resources :answers, concerns: [:votable] do
+      resources :comments, only: [:create, :destroy]
       patch :mark_best, on: :member
       delete :delete_file, on: :member
     end
@@ -23,5 +26,5 @@ Rails.application.routes.draw do
     resources :badges, only: :index
   end
 
-  mount ActionCable.server => '/cable' #Запросы по адресу "наш_хост.cable" будут обрабатываться сервером ActionCable
+  mount ActionCable.server => '/cable'
 end

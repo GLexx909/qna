@@ -1,0 +1,7 @@
+- if comment.persisted?
+  .container-fluid class='comment-#{comment.id}'
+    .row
+      .col-sm-1
+      .col-sm-11.comment-style id="card-comment-#{comment.id}"
+        = render partial: 'comments/comment_single', locals: {comment: comment}
+        hr
