@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
-
-  before_action :authenticate_user!
   include Voted
+  before_action :authenticate_user!
+  after_action :publish_answer, only: [:create]
 
   def create
     @answer = question.answers.new(answer_params)
@@ -45,6 +45,46 @@ class AnswersController < ApplicationController
 
   def question
     @question ||= Question.find(params[:question_id])
+  end
+
+  def publish_answer
+    return if answer.errors.any?
+
+    links = []
+    answer.links.each do |link|
+      if link.persisted? && link.gist?
+        hash = Hash.new
+        hash[:name] = link.name
+        hash[:url] = link.url
+        hash[:text] = link.gist_code
+        links << hash
+      elsif link.persisted?
+        hash = Hash.new
+        hash[:name] = link.name
+        hash[:url] = link.url
+        links << hash
+      end
+    end
+
+    files = []
+    answer.files.each do |file|
+      hash = {}
+      hash[:name] = file.filename.to_s
+      hash[:url] = url_for(file)
+      files << hash
+    end
+
+    files_names = []
+    answer.files.each{|file| files_names << file.filename.to_s}
+
+    ActionCable.server.broadcast(
+        'answers', {action: 'create',
+                    answer_id: answer.id,
+                    answer_body: answer.body,
+                    answer_files: files,
+                    answer_links: links,
+                    author: answer.author.id}
+    )
   end
 
   def answer_params

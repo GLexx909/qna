@@ -48,6 +48,8 @@ gem 'aws-sdk-s3', require: false
 gem 'cocoon' # for nested form
 gem "validate_url"
 gem "octokit", "~> 4.0" # GitHub HTTP client
+gem 'gon' #use rails variables in js
+gem 'skim' #templates engine. Use template.jst.skim in js rendering
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

@@ -1,0 +1,17 @@
+.container-fluid.mt-4 class="answer-vote-#{@id}"
+	.row
+		.col-sm-1
+			.text-center
+				a class='vote vote-up' data-remote='true' data-method='post' href="/answers/#{@id}/vote_up" 
+					img(src="https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_keyboard_arrow_up_48px-32.png")
+			.text-center.rating
+	  			b = 0
+			.text-center
+				a class='vote vote-up' data-remote='true' data-method='post' href="/answers/#{@id}/vote_down" 
+					img(src="https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_keyboard_arrow_down_48px-32.png")
+		.col-sm-11.card.mb-3.box-shadow-card id="card-answer-#{@id}"
+			.best-answer-mark id='best-answer-mark-#{@id}'
+			p = @answer_body
+			.file-block
+			.links
+			.gist-code.mr-5
