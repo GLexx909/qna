@@ -1,1 +1,5 @@
-$('.question-comments-body' + ' .comment-' + '<%= @comment.id %>').remove();
+<% if @comment.commentable.class.name.downcase === 'question'%>
+  $('.question-comments-body' + ' .comment-' + '<%= @comment.id %>').remove();
+<% elsif  @comment.commentable.class.name.downcase === 'answer'%>
+  $('.answers' + ' .comment-' + '<%= @comment.id %>').remove();
+<% end %>

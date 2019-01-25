@@ -5,3 +5,12 @@
         = render 'shared/vote_links', resource: answer
       .col-sm-11.card.mb-3.box-shadow-card id="card-answer-#{answer.id}"
         = render partial: 'answers/answer_block', locals: {answer: answer}
+
+div class="answer-comments-block-#{answer.id}"
+  .answer-comments-body = render answer.comments.sort_by_time
+  .container-fluid
+    .row
+      .col-sm-1
+      .col-sm-11
+        .text-md-right = link_to 'Comment this', '#', remote: true, class: "answer-comments__add-button comments__add-button", data: { answer_id: answer.id }
+        .hidden class= "answer-comment-form-#{answer.id}" = render 'shared/comment_form', resource: answer

@@ -1,7 +1,13 @@
-$('.question-comment__errors').html('<%= render 'shared/errors', resource: @comment %>');
+$(".<%= @comment.commentable.class.name.downcase %>-comment__errors").html('<%= render 'shared/errors', resource: @comment %>');
 
-<% if !@comment.errors.present? %>
+<% if !@comment.errors.present? && @comment.commentable.class.name.downcase === 'question'%>
   $('.question-comments-body').append('<%= render 'comments/comment', comment: @comment  %>');
   $('.question-comment__form-new #comment_body').val('');
   $('.question-comment-form').addClass('hidden');
+<% end %>
+
+<% if !@comment.errors.present? && @comment.commentable.class.name.downcase === 'answer'%>
+  $('.answer-comments-block-'+ <%= @comment.commentable.id %> +' .answer-comments-body').append('<%= render 'comments/comment', comment: @comment  %>');
+  $('.answer-comment-form-' + <%= @comment.commentable.id %>  + ' #comment_body').val('');
+  $('.answer-comment-form-' + <%= @comment.commentable.id %>).addClass('hidden');
 <% end %>

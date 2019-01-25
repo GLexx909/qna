@@ -1,4 +1,4 @@
-.question-comment__errors
+.div class="#{resource.class.name.downcase}-comment__errors"
 = form_with model: [resource, Comment.new], url: polymorphic_path([resource, Comment]), class: "#{resource.class.name.downcase}-comment__form-new", method: :post do |f|
   .field
     = f.label :body

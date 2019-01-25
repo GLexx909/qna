@@ -1,9 +1,17 @@
 $(document).on('turbolinks:load', function() {
 
-    // Show comment create-form
+    // Show question comment create-form
 
     $('.question-comments-block').on('click', '.question-comments__add-button', function () {
         $('.question-comment-form').removeClass('hidden');
+    });
+
+
+    // Show answer comment create-form
+
+    $('.answers').on('click', '.answer-comments__add-button', function (e) {
+        var answerId = $(this).data('answerId');
+        $('.answer-comment-form-' + answerId).removeClass('hidden');
     });
 
     // Comment Cable question/show
