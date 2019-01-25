@@ -1,0 +1,6 @@
+.container-fluid class="comment-#{@id}"
+	.row
+		.col-sm-1
+		.col-sm-11.comment-style id="card-comment-#{@id}"
+	    	p = @comment
+	    	hr

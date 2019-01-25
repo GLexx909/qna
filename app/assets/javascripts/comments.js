@@ -15,11 +15,11 @@ $(document).on('turbolinks:load', function() {
 
         received: function (data) {
             //if comment was created
-            if (data['action'] === 'create') {
-                $('.question-comments-body').append(data['data']);
-                //if question was deleted
-            // }else if (data['action'] === 'delete'){
-            //     $('.question-' + data['data']).remove();
+            if (gon.user_id !== data['author'] && data['action'] === 'create') {
+                $('.question-comments-body').append(JST["templates/comment"]({id: data['comment_id'], comment: data['comment_body']}));
+            //if comment was deleted
+            }else if (gon.user_id !== data['author'] && data['action'] === 'delete'){
+                $('.question-comments-body' + ' .comment-' + data['comment_id']).remove();
             }
         }
     });

@@ -1,6 +1,7 @@
 class CommentsController < ApplicationController
   before_action :authenticate_user!
   after_action :publish_comment, only: [:create]
+  after_action :delete_comment, only: [:destroy]
 
   def create
     @comment = commentable.comments.new(comment_params)
@@ -9,6 +10,12 @@ class CommentsController < ApplicationController
   end
 
   def destroy
+    @comment = Comment.find(params[:id])
+    if current_user.author_of?(@comment)
+      @comment.destroy
+    else
+      head 403
+    end
   end
 
   private
@@ -25,11 +32,17 @@ class CommentsController < ApplicationController
     return if @comment.errors.any?
 
     ActionCable.server.broadcast(
-        'comments', {action: 'create', data:
-        ApplicationController.render(
-            partial: 'comments/comment',
-            locals: { comment: @comment }
-        )}
+        'comments', {action: 'create',
+                     comment_id: @comment.id,
+                     comment_body: @comment.body,
+                     author: @comment.author.id})
+  end
+
+  def delete_comment
+    ActionCable.server.broadcast(
+        'comments', {action: 'delete',
+                     comment_id: @comment.id,
+                     author: @comment.author.id}
     )
   end
 
