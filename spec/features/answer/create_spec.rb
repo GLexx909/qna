@@ -45,8 +45,10 @@ feature 'User can create answer', %q{
   scenario 'Unauthenticated user tries to create an answer' do
     visit question_path(question)
 
-    fill_in 'Body', with: 'Non auth text'
-    click_on 'Post Your Answer'
+    within('.answer-new-form') do
+      fill_in 'Body', with: 'Non auth text'
+      click_on 'Post Your Answer'
+    end
 
     expect(page).to have_content('You need to sign in or sign up before continuing.')
   end

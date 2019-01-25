@@ -19,4 +19,16 @@ feature 'User can add comments to question', %q{
       expect(page).to have_content 'text of comment'
     end
   end
+
+  scenario 'Unauthorised user tries to can not add a comment to question', js: true do
+    sign_in(user)
+    visit question_path(question)
+
+    within ('.question-comments-block') do
+      click_on 'Comment this'
+      fill_in 'Body', with: 'text of comment'
+      click_on 'Post Your Comment'
+      expect(page).to have_content 'text of comment'
+    end
+  end
 end
