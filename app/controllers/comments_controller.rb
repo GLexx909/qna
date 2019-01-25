@@ -33,6 +33,8 @@ class CommentsController < ApplicationController
 
     ActionCable.server.broadcast(
         'comments', {action: 'create',
+                     commentable: @comment.commentable_type.downcase,
+                     commentable_id: @comment.commentable.id,
                      comment_id: @comment.id,
                      comment_body: @comment.body,
                      author: @comment.author.id})
@@ -41,6 +43,7 @@ class CommentsController < ApplicationController
   def delete_comment
     ActionCable.server.broadcast(
         'comments', {action: 'delete',
+                     commentable: @comment.commentable_type.downcase,
                      comment_id: @comment.id,
                      author: @comment.author.id}
     )
