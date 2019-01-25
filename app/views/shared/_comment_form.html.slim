@@ -1,5 +1,5 @@
 .question-comment__errors
-= form_with model: [resource, Comment.new], url: question_comments_path(resource), class: 'question-comment__form-new', method: :post do |f|
+= form_with model: [resource, Comment.new], url: polymorphic_path([resource, Comment]), class: "#{resource.class.name.downcase}-comment__form-new", method: :post do |f|
   .field
     = f.label :body
     = f.text_area :body

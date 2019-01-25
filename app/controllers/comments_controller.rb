@@ -1,8 +1,9 @@
 class CommentsController < ApplicationController
   before_action :authenticate_user!
+  after_action :publish_comment, only: [:create]
 
   def create
-    @comment = question.comments.new(comment_params)
+    @comment = commentable.comments.new(comment_params)
     @comment.author = current_user
     @comment.save
   end
@@ -12,8 +13,24 @@ class CommentsController < ApplicationController
 
   private
 
-  def question
-    @question ||= Question.find(params[:question_id])
+  def commentable
+    if params[:question_id]
+      Question.find(params[:question_id])
+    elsif params[:answer_id]
+      Answer.find(params[:answer_id])
+    end
+  end
+
+  def publish_comment
+    return if @comment.errors.any?
+
+    ActionCable.server.broadcast(
+        'comments', {action: 'create', data:
+        ApplicationController.render(
+            partial: 'comments/comment',
+            locals: { comment: @comment }
+        )}
+    )
   end
 
   def comment_params
