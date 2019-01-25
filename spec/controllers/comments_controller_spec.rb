@@ -36,4 +36,35 @@ RSpec.describe CommentsController, type: :controller do
       end
     end
   end
+
+  describe 'DELETE #destroy' do
+    let!(:user2) { create :user }
+    let!(:comment) { create :comment, author: user1, commentable: question }
+
+    context 'Author' do
+      before { login(user1) }
+
+      it 'delete the comment' do
+        expect { delete :destroy, params: { id: comment }, format: :js}.to change(Comment, :count).by(-1)
+      end
+
+      it 'render destroy view' do
+        delete :destroy, params: { id: comment }, format: :js
+        expect(response).to render_template :destroy
+      end
+    end
+
+    context 'Not author' do
+      before { login(user2) }
+
+      it 'delete the comment' do
+        expect { delete :destroy, params: { id: comment }, format: :js}.to_not change(Comment, :count)
+      end
+
+      it 'render status 403' do
+        delete :destroy, params: { id: comment }, format: :js
+        expect(response).to have_http_status 403
+      end
+    end
+  end
 end
