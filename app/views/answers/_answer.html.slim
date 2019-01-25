@@ -12,5 +12,5 @@ div class="answer-comments-block-#{answer.id}"
     .row
       .col-sm-1
       .col-sm-11
-        .text-md-right = link_to 'Comment this', '#', remote: true, class: "answer-comments__add-button comments__add-button", data: { answer_id: answer.id }
+        .text-md-right = link_to 'Comment this', '#', remote: true, class: "answer-comments__add-button comments__add-button", data: { answer_id: answer.id } if user_signed_in?
         .hidden class= "answer-comment-form-#{answer.id}" = render 'shared/comment_form', resource: answer

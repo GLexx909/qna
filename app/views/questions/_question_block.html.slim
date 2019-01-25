@@ -29,5 +29,5 @@ hr
     .row
       .col-sm-1
       .col-sm-11
-        .text-md-right = link_to 'Comment this', '#', remote: true, class: 'question-comments__add-button comments__add-button'
+        .text-md-right = link_to 'Comment this', '#', remote: true, class: 'question-comments__add-button comments__add-button' if user_signed_in?
         .question-comment-form.hidden = render 'shared/comment_form', resource: @question
