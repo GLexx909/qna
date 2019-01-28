@@ -12,7 +12,6 @@ $(document).on('turbolinks:load', function() {
     $('.answers').on('click', '.answer-comments__add-button', function (e) {
         var answerId = $(this).data('answerId');
         $('.answer-comment-form-' + answerId).removeClass('hidden');
-        // $('.answer-comment-form-' + answerId).removeClass('hidden');
     });
 
 
