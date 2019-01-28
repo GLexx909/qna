@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe CommentsController, type: :controller do
   let!(:user1) { create :user }
-  let!(:question) { create :question, author: user1 }
+  let!(:question) { create :question, author: user1 } #it may be @answer. There is no difference
 
   describe 'POST #create' do
     context 'Authorised user' do

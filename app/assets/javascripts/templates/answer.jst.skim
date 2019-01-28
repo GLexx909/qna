@@ -1,17 +1,49 @@
-.container-fluid.mt-4 class="answer-vote-#{@id}"
+.container-fluid.mt-4 class="answer-vote-#{@answer.id}"
 	.row
 		.col-sm-1
 			.text-center
-				a class='vote vote-up' data-remote='true' data-method='post' href="/answers/#{@id}/vote_up" 
+				a class='vote vote-up' data-remote='true' data-method='post' href="/answers/#{@answer.id}/vote_up" 
 					img(src="https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_keyboard_arrow_up_48px-32.png")
 			.text-center.rating
-	  			b = 0
+				b = 0
 			.text-center
-				a class='vote vote-up' data-remote='true' data-method='post' href="/answers/#{@id}/vote_down" 
+				a class='vote vote-up' data-remote='true' data-method='post' href="/answers/#{@answer.id}/vote_down" 
 					img(src="https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_keyboard_arrow_down_48px-32.png")
-		.col-sm-11.card.mb-3.box-shadow-card id="card-answer-#{@id}"
-			.best-answer-mark id='best-answer-mark-#{@id}'
-			p = @answer_body
+		.col-sm-11.card.mb-3.box-shadow-card id="card-answer-#{@answer.id}"
+			p = @answer.body
 			.file-block
+				- for file in @answer.files
+					div
+						a target='_blank' rel='noopener' href="#{file.url}"
+							p = file.name
 			.links
+				- if @answer.links[0]
+					| Links:
+				ul
+					- for link in @answer.links
+						- if link.text
+							.gist-code
+								= link.text
+						li
+							a href="#{link.url}" target='_blanck' rel='noopener'
+								p = link.name
 			.gist-code.mr-5
+
+	div class="answer-comments-block-#{@answer.id}"
+		.answer-comments-body
+		.container-fluid
+			.row
+				.col-sm-1
+				.col-sm-11
+					- if gon.user_id
+						.text-md-right
+							a href='#' remote='true' class="answer-comments__add-button comments__add-button" data-remote="true" data-answer-id="#{@answer.id}" Comment this
+						.hidden class="answer-comment-form-#{@answer.id}"
+							.div class="answer-comment__errors"
+							form.answer-comment__form-ner accept-charset='UTF-8' action="/answers/#{@answer.id}/comments" data-remote='true' method='post'
+								.field
+									input name='utf8' type='hidden' value="✓"
+									label for='comment_body' Body
+								.actions
+									input#comment_body name='comment[body]' type='text'
+									input data-disable-with=('Post Your Comment') name='commit' type='submit' value=('Post Your Comment')

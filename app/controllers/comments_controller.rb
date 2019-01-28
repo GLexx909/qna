@@ -31,25 +31,22 @@ class CommentsController < ApplicationController
   def publish_comment
     return if @comment.errors.any?
 
-    ActionCable.server.broadcast(
-        'comments', {action: 'create',
-                     commentable: @comment.commentable_type.downcase,
-                     commentable_id: @comment.commentable.id,
-                     comment_id: @comment.id,
-                     comment_body: @comment.body,
-                     author: @comment.author.id})
+    ActionCable.server.broadcast("comments_of_question_#{question_id}", { comment: @comment.as_json.merge(action: 'create') })
   end
 
   def delete_comment
-    ActionCable.server.broadcast(
-        'comments', {action: 'delete',
-                     commentable: @comment.commentable_type.downcase,
-                     comment_id: @comment.id,
-                     author: @comment.author.id}
-    )
+    ActionCable.server.broadcast("comments_of_question_#{question_id}", { comment: @comment.as_json.merge(action: 'delete') })
   end
 
   def comment_params
     params.require(:comment).permit(:body)
+  end
+
+  def question_id
+    if @comment.commentable_type == "Question"
+      @comment.commentable_id
+    elsif @comment.commentable_type == "Answer"
+      @comment.commentable.question_id
+    end
   end
 end

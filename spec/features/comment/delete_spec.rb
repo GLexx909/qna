@@ -68,7 +68,7 @@ feature 'User can delete comment of question', %q{
 
     within ('.question-comments-block') do
       click_on 'Delete comment'
-      expect(page).to have_content 'text of comment'
+      expect(page).to_not have_content 'text of comment'
     end
   end
 

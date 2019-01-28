@@ -1,6 +1,6 @@
-.container-fluid class="comment-#{@id}"
+.container-fluid class="comment-#{@comment.id}"
 	.row
 		.col-sm-1
-		.col-sm-11.comment-style id="card-comment-#{@id}"
-	    	p = @comment
+		.col-sm-11.comment-style id="card-comment-#{@comment.id}"
+	    	p = @comment.body
 	    	hr

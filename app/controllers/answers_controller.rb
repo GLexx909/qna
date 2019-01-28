@@ -50,48 +50,14 @@ class AnswersController < ApplicationController
 
   def publish_answer
     return if answer.errors.any?
+    # Не смог метод url_for вызвать в AnswerHash.rb
+    urls = answer.files.map{ |file| url_for(file) }
 
-    links = []
-    answer.links.each do |link|
-      if link.persisted? && link.gist?
-        hash = Hash.new
-        hash[:name] = link.name
-        hash[:url] = link.url
-        hash[:text] = link.gist_code
-        links << hash
-      elsif link.persisted?
-        hash = Hash.new
-        hash[:name] = link.name
-        hash[:url] = link.url
-        links << hash
-      end
-    end
-
-    files = []
-    answer.files.each do |file|
-      hash = {}
-      hash[:name] = file.filename.to_s
-      hash[:url] = url_for(file)
-      files << hash
-    end
-
-    files_names = []
-    answer.files.each{|file| files_names << file.filename.to_s}
-
-    ActionCable.server.broadcast(
-        'answers', {action: 'create',
-                    answer_id: answer.id,
-                    answer_body: answer.body,
-                    answer_files: files,
-                    answer_links: links,
-                    author: answer.author.id}
-    )
+    ActionCable.server.broadcast("answers_of_question_#{answer.question_id}", AnswerHash.new(answer, urls).call_create)
   end
 
   def delete_answer
-    ActionCable.server.broadcast(
-        'answers', {action: 'delete', answer_id: answer.id}
-    )
+    ActionCable.server.broadcast("answers_of_question_#{answer.question_id}", AnswerHash.new(answer).call_delete)
   end
 
   def answer_params
