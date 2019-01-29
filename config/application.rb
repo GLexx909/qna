@@ -27,5 +27,6 @@ module Qna
   end
 
     config.autoload_paths << "#{Rails.root}/lib/clients"
+    config.autoload_paths += [config.root.join('app')]
   end
 end
