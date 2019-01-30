@@ -27,5 +27,8 @@ Rails.application.routes.draw do
     resources :badges, only: :index
   end
 
+  get 'preregistrations/show', to: 'preregistrations#show'
+  post 'preregistrations/create', to: 'preregistrations#create'
+
   mount ActionCable.server => '/cable'
 end

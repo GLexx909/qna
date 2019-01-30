@@ -2,7 +2,7 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable,
+         :recoverable, :rememberable, :validatable, :confirmable,
          :omniauthable, omniauth_providers: [:facebook]
 
   has_many :answers, foreign_key: 'author_id'
@@ -19,8 +19,8 @@ class User < ApplicationRecord
     votes.where(votable: resource).exists?
   end
 
-  def self.find_for_oauth(auth)
-    Services::FindForOauth.new(auth).call
+  def self.find_for_oauth(auth, *email)
+    Services::FindForOauth.new(auth, email.first).call
   end
 
   def create_authorization(auth)
