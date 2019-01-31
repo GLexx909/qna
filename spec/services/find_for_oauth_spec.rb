@@ -3,7 +3,8 @@ require 'rails_helper'
 RSpec.describe Services::FindForOauth do
   let!(:auth) { OmniAuth::AuthHash.new(provider: 'github', uid: '123456') }
   let!(:user1) { create :user }
-  subject { Services::FindForOauth.new(auth) }
+  let(:email) { nil }
+  subject { Services::FindForOauth.new(auth, email) }
 
   context 'user already has authorization' do
     it 'returns the user' do

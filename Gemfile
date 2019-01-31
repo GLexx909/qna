@@ -54,6 +54,7 @@ gem 'skim' #templates engine. Use template.jst.skim in js rendering
 # omniauth
 gem 'omniauth'
 gem 'omniauth-facebook'
+gem 'omniauth-github'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

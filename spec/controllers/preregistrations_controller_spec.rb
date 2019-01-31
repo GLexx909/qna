@@ -16,12 +16,12 @@ RSpec.describe PreregistrationsController, type: :controller do
 
     context 'with invalid attributes' do
       it 'dos not save the user' do
-        expect { post :create, params: { email: '' } }.to change(User, :count).by(0)
+        expect { post :create, params: { email: '' }, format: :js }.to change(User, :count).by(0)
       end
 
-      it 'render to show view' do
-        post :create, params: { email: '' }
-        expect(response).to render_template :show
+      it 'render create view' do
+        post :create, params: { email: '' }, format: :js
+        expect(response).to render_template :create
       end
     end
   end

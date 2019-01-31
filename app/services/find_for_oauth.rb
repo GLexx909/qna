@@ -1,9 +1,9 @@
 class Services::FindForOauth
   attr_reader :auth
 
-  def initialize(auth, *email)
+  def initialize(auth, email)
     @auth = auth
-    @email = email.first
+    @email = email
   end
 
   def call

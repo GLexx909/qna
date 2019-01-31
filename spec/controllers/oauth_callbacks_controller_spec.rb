@@ -5,8 +5,8 @@ RSpec.describe OauthCallbacksController, type: :controller do
     @request.env["devise.mapping"] = Devise.mappings[:user]
   end
 
-  describe 'Github' do
-    let(:oauth_data) { {'info'=> {'provider' => 'github', 'uid' => 123, 'email' => 'example@mail.com'}} }
+  describe 'Facebook' do
+    let(:oauth_data) {{'provider' => 'github', 'uid' => 123, 'info'=> {'email' => 'example@mail.com'}} }
     let(:email) { nil }
 
     it 'finds user from oauth data' do

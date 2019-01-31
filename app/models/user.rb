@@ -3,7 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :confirmable,
-         :omniauthable, omniauth_providers: [:facebook]
+         :omniauthable, omniauth_providers: [:facebook, :github]
 
   has_many :answers, foreign_key: 'author_id'
   has_many :questions, foreign_key: 'author_id'
@@ -19,8 +19,8 @@ class User < ApplicationRecord
     votes.where(votable: resource).exists?
   end
 
-  def self.find_for_oauth(auth, *email)
-    Services::FindForOauth.new(auth, email.first).call
+  def self.find_for_oauth(auth, email)
+    Services::FindForOauth.new(auth, email).call
   end
 
   def create_authorization(auth)
