@@ -4,6 +4,8 @@ class AnswersController < ApplicationController
   after_action :publish_answer, only: [:create]
   after_action :delete_answer, only: [:destroy]
 
+  authorize_resource
+
   def create
     @answer = question.answers.new(answer_params)
     @answer.author = current_user

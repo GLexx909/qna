@@ -4,6 +4,8 @@ class QuestionsController < ApplicationController
   after_action :publish_question, only: [:create]
   after_action :delete_question, only: [:destroy]
 
+  authorize_resource
+
   def index
     @questions = Question.all
   end
