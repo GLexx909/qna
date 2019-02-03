@@ -1,4 +1,4 @@
-- if current_user&.author_of?(@question)
+- if can?(:destroy, @question)
   = button_to 'Delete the Question', question_path(@question), method: :delete
   = button_to 'Edit Question', '#', class: 'edit-question-link'
 
@@ -14,7 +14,7 @@
   - @question.files.each do |file|
     .file-block
       = link_to file.filename.to_s, url_for(file)
-      = button_to 'Delete file', attachment_path(file.id), method: :delete, remote: true
+      = button_to 'Delete file', attachment_path(file.id), method: :delete, remote: true if can?(:destroy, @question)
 
 .links
   = render 'shared/show_links', resource: @question if @question.links.first
@@ -29,5 +29,5 @@ hr
     .row
       .col-sm-1
       .col-sm-11
-        .text-md-right = link_to 'Comment this', '#', remote: true, class: 'question-comments__add-button comments__add-button' if user_signed_in?
+        .text-md-right = link_to 'Comment this', '#', remote: true, class: 'question-comments__add-button comments__add-button' if can?(:create, Comment)
         .question-comment-form.hidden = render 'shared/comment_form', resource: @question

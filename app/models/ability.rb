@@ -28,10 +28,13 @@ class Ability
     can :destroy, [Question, Answer, Comment], author_id: user.id
 
     can :vote_up, [Question, Answer] do |votable| votable.author_id != user.id end
-    can :vote_down, [Question, Answer] do |votable| votable.author_id != user.id end
+
+    can :vote_down, [Question, Answer] do|votable|
+      !user.author_of?(votable)
+    end
 
     can :manage, ActiveStorage::Attachment do |attachment|
-      attachment.record.author_id == user.id
+      user.author_of?(attachment.record)
     end
 
     can :mark_best, Answer, question: { author_id: user.id }

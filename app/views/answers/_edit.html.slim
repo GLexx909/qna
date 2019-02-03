@@ -2,7 +2,7 @@ div id='edit-answer-errors-#{answer.id}'
 
 - if current_user&.author_of?(answer)
   .box-shadow-card.max-width-50vw.mb-4
-    = form_with model: answer, class: 'hidden answer-form p-3', html: { id: "edit-answer-#{answer.id}" } do |f|
+    = form_with model: answer, class: 'hidden answer-form p-3', html: { id: "edit-answer-#{answer.id}" }, data: {  type: :json, answer_id: answer.id } do |f|
       .field
         = f.label :body, 'Your answer'
         = f.text_area :body

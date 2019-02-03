@@ -22,13 +22,27 @@ $(document).on('turbolinks:load', function(){
         $('.badge-form').toggle('hidden');
     });
 
+    // Question update CanCan exception.message
+
+    $('.question-block').on('ajax:error', '.question-edit-form', function(e) {
+        let errors = e.detail[0];
+
+        $('.notice').html('<b>' + errors + '</b>');
+    });
+
+
     // Vote update
 
     $('.question-block').on('ajax:success', '.vote', function(e) {
         let rating = e.detail[0]['rating'];
 
         $('.question-block .rating').html('<b>' + rating + '</b>');
+
+    }).on('ajax:error', '.vote', function (e) {
+        var errors = e.detail[0];
+        $('.notice').html(errors)
     });
+
 
     // Question Cable index.html
 

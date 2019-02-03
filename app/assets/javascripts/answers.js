@@ -18,7 +18,32 @@ $(document).on('turbolinks:load', function() {
         var answerId = xhr['votable_id'];
 
         $('.answer-vote-' + answerId + ' .rating').html('<b>' + rating + '</b>');
+
+    }).on('ajax:error', '.vote', function (e) {
+        var errors = e.detail[0];
+        $('.notice').html(errors)
     });
+
+
+
+    // Answer update CanCan exception.message
+
+    $('.answers').on('ajax:error', '.answer-form', function(e) {
+        let errors = e.detail[0];
+        var answerId = $(this).data('answerId');
+
+        $('#edit-answer-errors-' + answerId).html('<b>' + errors + '</b>');
+    });
+
+
+    // Answer new form CanCan exception.message
+
+    $('.answer-new-form').on('ajax:error', '.new-answer', function(e) {
+        let errors = e.detail[0];
+
+        $('.answer-errors').html('<b>' + errors + '</b>');
+    });
+
 
 
     // Answer Cable question/show

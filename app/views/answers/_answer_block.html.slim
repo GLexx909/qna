@@ -1,5 +1,5 @@
 .div-best-answer-button
-  = button_to 'Mark as best answer', mark_best_answer_path(answer), class: 'best-answer-button btn btn-secondary', method: :patch, remote: true if current_user&.author_of?(@question)
+  = button_to 'Mark as best answer', mark_best_answer_path(answer), class: 'best-answer-button btn btn-secondary', method: :patch, remote: true if can?(:mark_best, answer)
 
 .best-answer-mark id='best-answer-mark-#{answer.id}'
   = 'Best Answer!' if answer.best?

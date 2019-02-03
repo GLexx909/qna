@@ -123,7 +123,9 @@ feature 'User can edit his answer', %q{
       sign_in user2
       visit question_path(question)
 
-      expect(page).to_not have_button 'Edit'
+      within ('.card') do
+        expect(page).to_not have_button 'Edit'
+      end
     end
   end
 end

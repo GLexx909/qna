@@ -1,4 +1,4 @@
-= form_with model: [@question, @answer], url: question_answers_path(@question), method: :post, class: 'new-answer' do |f|
+= form_with model: [@question, @answer], url: question_answers_path(@question), method: :post, class: 'new-answer', data: {  type: :json, answer_id: @answer.id } do |f|
   .field
     = f.label :body
     = f.text_area :body
