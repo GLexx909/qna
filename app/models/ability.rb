@@ -27,7 +27,9 @@ class Ability
     can :update, [Question, Answer, Comment], author_id: user.id
     can :destroy, [Question, Answer, Comment], author_id: user.id
 
-    can :vote_up, [Question, Answer] do |votable| votable.author_id != user.id end
+    can :vote_up, [Question, Answer] do |votable|
+      !user.author_of?(votable)
+    end
 
     can :vote_down, [Question, Answer] do|votable|
       !user.author_of?(votable)
