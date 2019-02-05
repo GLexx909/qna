@@ -50,6 +50,9 @@ gem "validate_url"
 gem "octokit", "~> 4.0" # GitHub HTTP client
 gem 'gon' #use rails variables in js
 gem 'skim' #templates engine. Use template.jst.skim in js rendering
+gem 'doorkeeper' #REST API
+gem 'active_model_serializers', '~> 0.10'
+gem 'oj' #json optimizer
 
 # omniauth
 gem 'omniauth'
