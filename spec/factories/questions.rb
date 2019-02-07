@@ -1,10 +1,10 @@
 FactoryBot.define do
   sequence :title do |n|
-    "Question Title#{n}"
+    "Question_Title#{n}"
   end
 
   sequence :body do |n|
-    "Question Body#{n}"
+    "Question_Body#{n}"
   end
 
 

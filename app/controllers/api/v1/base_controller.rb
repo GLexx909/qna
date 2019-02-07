@@ -1,9 +1,9 @@
 class Api::V1::BaseController < ApplicationController
+  before_action :doorkeeper_authorize!
   protect_from_forgery with: :null_session
 
   skip_authorization_check
-
-  before_action :doorkeeper_authorize!
+  # authorize_resource
 
   private
 

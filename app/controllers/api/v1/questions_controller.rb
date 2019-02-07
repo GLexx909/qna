@@ -1,4 +1,7 @@
 class Api::V1::QuestionsController < Api::V1::BaseController
+  # authorize_resource
+  # skip_authorization_check
+
   def index
     @questions = Question.all
     render json: @questions, each_serializer: QuestionsSerializer
@@ -10,10 +13,10 @@ class Api::V1::QuestionsController < Api::V1::BaseController
   end
 
   def create
-    question = Question.new(question_params)
-    question.author = current_resource_owner
+    @question = Question.new(question_params)
+    @question.author = current_resource_owner
 
-    head :ok if question.save
+    head :ok if @question.save!
   end
 
   def update

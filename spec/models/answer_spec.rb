@@ -1,5 +1,4 @@
 require 'rails_helper'
-require Rails.root.join "spec/models/concerns/votable_spec.rb"
 
 RSpec.describe Answer, type: :model do
   it_behaves_like 'WithVotable' do
@@ -21,9 +20,7 @@ RSpec.describe Answer, type: :model do
   let(:user) { create :user }
   let(:question) { create :question, author: user}
 
-  it 'have many attached file' do
-    expect(Answer.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
-  end
+  it_behaves_like 'Have many attached file', let(:object_class){ Answer }
 
   describe '#change_mark_best' do
     let!(:question) { create :question, author: user}
