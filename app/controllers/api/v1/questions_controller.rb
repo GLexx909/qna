@@ -1,30 +1,40 @@
 class Api::V1::QuestionsController < Api::V1::BaseController
-  # authorize_resource
-  # skip_authorization_check
+  authorize_resource
 
   def index
-    @questions = Question.all
-    render json: @questions, each_serializer: QuestionsSerializer
+    questions = Question.all
+    render json: questions, each_serializer: QuestionsSerializer
   end
 
   def show
-    @question = Question.find(params[:id])
-    render json: @question
+    render json: question
   end
 
   def create
-    @question = Question.new(question_params)
-    @question.author = current_resource_owner
+    question = Question.new(question_params)
+    question.author = current_resource_owner
 
-    head :ok if @question.save!
+    if question.save
+      render json: question, status: :created
+    else
+      render json: question.errors.full_messages, status: :unprocessable_entity
+    end
   end
 
   def update
-    head :ok if question.update(question_params)
+    if question.update(question_params)
+      render json: question, status: :ok
+    else
+      render json: question.errors.full_messages, status: :unprocessable_entity
+    end
   end
 
   def destroy
-    head :ok if question.destroy
+    if question.destroy
+      render json: "Successful deletion", status: :ok
+    else
+      render json: "Error. Answer was not deleted", status: :unprocessable_entity
+    end
   end
 
   private

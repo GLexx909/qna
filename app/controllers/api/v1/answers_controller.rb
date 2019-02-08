@@ -1,29 +1,40 @@
 class Api::V1::AnswersController < Api::V1::BaseController
-  # authorize_resource
+  authorize_resource
 
   def index
-    @answers = question.answers
-    render json: @answers, each_serializer: AnswersSerializer
+    answers = question.answers
+    render json: answers, each_serializer: AnswersSerializer
   end
 
   def show
-    @answer = Answer.find(params[:id])
-    render json: @answer
+    render json: answer
   end
 
   def create
     answer = question.answers.new(answer_params)
     answer.author = current_resource_owner
 
-    head :ok if answer.save
+    if answer.save
+      render json: answer, status: :created
+    else
+      render json: answer.errors.full_messages, status: :unprocessable_entity
+    end
   end
 
   def update
-    head :ok if answer.update(answer_params)
+    if answer.update(answer_params)
+      render json: answer, status: :ok
+    else
+      render json: answer.errors.full_messages, status: :unprocessable_entity
+    end
   end
 
   def destroy
-    head :ok if answer.destroy
+    if answer.destroy
+      render json: "Successful deletion", status: :ok
+    else
+      render json: "Error. Answer was not deleted", status: :unprocessable_entity
+    end
   end
 
   private
