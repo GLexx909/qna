@@ -1,7 +1,4 @@
-require 'rails_helper'
-
-shared_examples "voted" do
-
+shared_examples_for "voted" do
   describe 'POST #vote_up' do
     context 'not author can vote' do
       before { login(user2) }

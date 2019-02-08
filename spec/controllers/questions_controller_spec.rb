@@ -1,18 +1,15 @@
 require 'rails_helper'
-require Rails.root.join "spec/controllers/concerns/voted_spec.rb"
 
 RSpec.describe QuestionsController, type: :controller do
-  it_behaves_like 'voted' do
-    let(:user) { create :user }
-    let(:user2) { create :user }
-    let(:votable) { create(:question, author: user) }
-  end
+  it_behaves_like 'voted', let(:user) { create :user }, let(:user2) { create :user },
+                           let(:votable) { create(:question, author: user) }
 
-  let(:user) { create :user }
+  let(:user)     { create :user }
   let(:question) { create :question, author: user }
 
   describe 'GET #index' do
     let(:questions) { create_list :question, 3, author: user }
+
     before { get :index }
 
     it 'populates an array of all questions' do
@@ -53,90 +50,49 @@ RSpec.describe QuestionsController, type: :controller do
     before { login(user) }
 
     context 'with valid attributes' do
-      it 'saves a new question in the database' do
-        expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
-      end
-
-      it 'according to the author of the question' do
-        post :create, params: { question: attributes_for(:question) }
-        expect(assigns( :question).author).to eq user
-      end
+      it_behaves_like 'To save a new object', let(:params) { question_params }, let(:object_class) { Question }, let(:object) { 'question' }
 
       it 'redirects to show view' do
-        post :create, params: { question: attributes_for(:question) }
+        post :create, params: question_params
         expect(response).to redirect_to assigns(:question)
       end
     end
 
     context 'with invalid attributes' do
-      it 'does not save question' do
-        expect { post :create, params: { question: attributes_for(:question, :invalid) } }.to_not change(Question, :count)
-      end
+      it_behaves_like 'To does not save a new object', let(:params) { question_params_invalid }, let(:object_class) { Question }
+
       it 're-render new view' do
-        post :create, params: { question: attributes_for(:question, :invalid) }
+        post :create, params: question_params_invalid
         expect(response).to render_template :new
       end
     end
   end
 
   describe 'PATCH #update' do
-
     describe 'Author' do
       before { login(user) }
 
       context 'with valid attributes' do
-        it 'assigns the requested question to @question' do
-          patch :update, params: { id: question, question: attributes_for(:question) }, format: :js
-          expect(assigns(:question)).to eq question
-        end
-
-        it 'changes question attributes' do
-          patch :update, params: { id: question, question: { title: 'new title', body: 'new body' } }, format: :js
-          question.reload
-
-          expect(question.title).to eq 'new title'
-          expect(question.body).to eq 'new body'
-        end
-
-        it 'render update view' do
-          patch :update, params: { id: question, question: attributes_for(:question) }, format: :js
-          expect(response).to render_template :update
-        end
+        it_behaves_like 'To update the object', let(:params) { question_params }, let(:object) { question }
+        it_behaves_like 'To change the object attributes', let(:params) { question_params_new }, let(:object) { question }
       end
 
       context 'with invalid attributes' do
         let!(:question) { create :question, title: 'MyTitle', body: 'MyBody', author: user }
-        before { patch :update, params: { id: question, question: attributes_for(:question, :invalid) }, format: :js }
 
-        it 'does not change question' do
-          question.reload
-
-          expect(question.title).to eq 'MyTitle'
-          expect(question.body).to eq 'MyBody'
-        end
-
-        it 'render update view' do
-          expect(response).to render_template :update
-        end
+        it_behaves_like 'To not change the object attributes', let(:params) { question_params_invalid }, let(:object) { question }
+        it_behaves_like 'To render update view', let(:params) { question_params_invalid }, let(:object) { question }
       end
     end
 
     describe 'Not Author' do
       let(:user1) { create :user }
+      let!(:question) { create :question, title: 'MyTitle', body: 'MyBody', author: user }
+
       before { login(user1) }
 
-      it 'tries to edit other user question' do
-        patch :update, params: { id: question, question: { title: 'new title', body: 'new body' }, format: :js }
-        question.reload
-
-        expect(question.title).to_not eq 'new title'
-        expect(question.body).to_not eq 'new body'
-      end
-
-      it 'render status 403' do
-        patch :update, params: { id: question, question: { title: 'new title', body: 'new body' }, format: :js }
-        expect(response).to have_http_status 403
-      end
+      it_behaves_like 'To not change the object attributes', let(:params) { question_params_new }, let(:object) { question }
+      it_behaves_like 'PATCH to render status 403', let(:params) { question_params_new }
     end
   end
 
@@ -147,9 +103,7 @@ RSpec.describe QuestionsController, type: :controller do
     context 'Author' do
       before { login(user1) }
 
-      it 'deletes the question' do
-        expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
-      end
+      it_behaves_like 'To delete the object', let(:object) { question }, let(:object_class) { Question }
 
       it 'redirect to index' do
         delete :destroy, params: { id: question }
@@ -160,14 +114,8 @@ RSpec.describe QuestionsController, type: :controller do
     context 'Not author' do
       before { login(user) }
 
-      it 'deletes the question' do
-        expect { delete :destroy, params: { id: question } }.to_not change(Question, :count)
-      end
-
-      it 'status 403' do
-        delete :destroy, params: { id: question }
-        expect(response).to have_http_status 403
-      end
+      it_behaves_like 'To not delete the object', let(:object) { question }, let(:object_class) { Question }
+      it_behaves_like 'DELETE to render status 403', let(:params) { question }
     end
   end
 end

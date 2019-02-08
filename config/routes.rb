@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  use_doorkeeper
+
   devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
 
   root 'questions#index'
@@ -27,10 +29,21 @@ Rails.application.routes.draw do
     resources :badges, only: :index
   end
 
-  # get 'preregistrations/show', to: 'preregistrations#show'
-  # post 'preregistrations/create', to: 'preregistrations#create'
-
   resources :preregistrations, only: [:new, :create]
+
+  # API
+
+  namespace :api do
+    namespace :v1 do
+      resources :profiles, only: [:index] do
+        get :me, on: :collection
+      end
+
+      resources :questions, only: [:index, :show, :create, :update, :destroy], shallow: true do
+        resources :answers, only: [:index, :show, :create, :update, :destroy]
+      end
+    end
+  end
 
   mount ActionCable.server => '/cable'
 end

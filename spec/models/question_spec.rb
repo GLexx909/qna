@@ -1,5 +1,4 @@
 require 'rails_helper'
-require Rails.root.join "spec/models/concerns/votable_spec.rb"
 
 RSpec.describe Question, type: :model do
   it_behaves_like 'WithVotable' do
@@ -20,7 +19,5 @@ RSpec.describe Question, type: :model do
 
   it { should accept_nested_attributes_for :links}
 
-  it 'have many attached file' do
-    expect(Question.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
-  end
+  it_behaves_like 'Have many attached file', let(:object_class){ Question }
 end

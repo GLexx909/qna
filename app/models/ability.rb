@@ -41,6 +41,6 @@ class Ability
 
     can :mark_best, Answer, question: { author_id: user.id }
     can :destroy, Link, linkable: { author_id: user.id }
-    # can :read, My::BadgesController
+    can :me, User, id: user.id
   end
 end
