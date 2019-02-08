@@ -30,11 +30,13 @@ class Api::V1::QuestionsController < Api::V1::BaseController
   end
 
   def destroy
-    if question.destroy
-      render json: "Successful deletion", status: :ok
-    else
-      render json: "Error. Answer was not deleted", status: :unprocessable_entity
-    end
+    question.destroy!
+
+    # if question.destroy
+    #   head :ok
+    # else
+    #   head 500
+    # end
   end
 
   private
