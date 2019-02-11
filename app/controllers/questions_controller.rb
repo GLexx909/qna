@@ -13,6 +13,7 @@ class QuestionsController < ApplicationController
   def show
     @answer = question.answers.new
     gon.user_id = current_user&.id
+    @color_class = icon_color_class
   end
 
   def new
@@ -51,6 +52,10 @@ class QuestionsController < ApplicationController
 
   def question
     @question ||= params[:id] ? Question.with_attached_files.find(params[:id]) : Question.new
+  end
+
+  def icon_color_class
+    'orange600' if current_user&.subscriptions&.find_by(question: question)
   end
 
   helper_method :question

@@ -25,7 +25,7 @@ class Ability
     guest_abilities
     can :create, [Question, Answer, Comment]
     can :update, [Question, Answer, Comment], author_id: user.id
-    can :destroy, [Question, Answer, Comment], author_id: user.id
+    can :destroy, [Question, Answer, Comment, Subscription], author_id: user.id
 
     can :vote_up, [Question, Answer] do |votable|
       !user.author_of?(votable)
@@ -42,5 +42,6 @@ class Ability
     can :mark_best, Answer, question: { author_id: user.id }
     can :destroy, Link, linkable: { author_id: user.id }
     can :me, User, id: user.id
+    can :swap, Subscription
   end
 end

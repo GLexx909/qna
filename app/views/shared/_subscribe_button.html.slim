@@ -1,0 +1,2 @@
+.text-center = link_to mi.notifications.css_class(color_class), subscribe_path(question), remote: true,
+                                                                              method: :post if can?(:swap, Subscription)

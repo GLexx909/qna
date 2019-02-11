@@ -6,7 +6,7 @@ class Question < ApplicationRecord
   has_many :comments, dependent: :destroy, as: :commentable
   belongs_to :author, class_name: 'User'
   has_one :badge, dependent: :destroy
-
+  has_many :subscriptions, dependent: :destroy
 
   has_many_attached :files
 
@@ -14,4 +14,21 @@ class Question < ApplicationRecord
   accepts_nested_attributes_for :badge, reject_if: :all_blank
 
   validates :title, :body,  presence: true
+
+  after_create :calculate_reputation, :send_daily_digest
+  after_commit :subscribe_for_updates, on: :create
+
+  private
+
+  def calculate_reputation
+    ReputationJob.perform_later(self)
+  end
+
+  def send_daily_digest
+    DailyDigestJob.perform_later
+  end
+
+  def subscribe_for_updates
+    subscriptions.create(user: author)
+  end
 end

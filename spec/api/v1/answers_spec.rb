@@ -6,7 +6,7 @@ describe 'Answers API', type: :request do
     let(:question) { create(:question, author: user) }
     let(:api_path) { "/api/v1/questions/#{question.id}/answers" }
 
-    it_behaves_like 'API Authorizable', let(:headers) { headers_attr }, let(:method) { :get }
+    it_behaves_like 'API Authorizable', let(:headers) { headers_attr }, let(:methods) { :get }
 
     context 'authorized' do
       let(:access_token) { create(:access_token) }
@@ -33,7 +33,7 @@ describe 'Answers API', type: :request do
     let(:api_path)        { "/api/v1/answers/#{answer.id}" }
     let(:access_token)    { create(:access_token) }
 
-    it_behaves_like 'API Authorizable', let(:headers) { headers_attr}, let(:method) { :get }
+    it_behaves_like 'API Authorizable', let(:headers) { headers_attr}, let(:methods) { :get }
 
     context 'authorized' do
       before { get api_path, params: { access_token: access_token.token }, headers: headers }
@@ -53,7 +53,7 @@ describe 'Answers API', type: :request do
     let(:api_path)     { "/api/v1/questions/#{question.id}/answers" }
     let(:access_token) { create(:access_token) }
 
-    it_behaves_like 'API Authorizable', let(:method) { :post }
+    it_behaves_like 'API Authorizable', let(:methods) { :post }
     it_behaves_like 'Authorized', let(:object) {'answer'}
    end
 
@@ -64,7 +64,7 @@ describe 'Answers API', type: :request do
     let(:access_token)    { create(:access_token) }
     let(:api_path)        { "/api/v1/answers/#{answer.id}" }
 
-    it_behaves_like 'API Authorizable', let(:method) { :patch }
+    it_behaves_like 'API Authorizable', let(:methods) { :patch }
 
     context 'authorized' do
       before { patch api_path, params: { access_token: access_token.token, answer: {body: 'Body_new' } } }
@@ -81,7 +81,7 @@ describe 'Answers API', type: :request do
     let(:access_token)  { create(:access_token) }
     let(:api_path)      { "/api/v1/answers/#{answer.id}"  }
 
-    it_behaves_like 'API Authorizable', let(:method) { :delete }
+    it_behaves_like 'API Authorizable', let(:methods) { :delete }
     it_behaves_like 'To delete object', let(:object) { Answer }
   end
 end
