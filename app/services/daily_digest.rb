@@ -1,6 +1,6 @@
 class Services::DailyDigest
   def send_digest
-    questions = Question.select {|question| question.created_at.to_date == Date.yesterday }
+    questions = Question.where(created_at: (Time.now.midnight - 1.day)..Time.now.midnight)
     questions_title = questions.pluck(:title)
 
     User.find_each(batch_size: 500) do |user|

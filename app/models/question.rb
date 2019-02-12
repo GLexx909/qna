@@ -15,17 +15,17 @@ class Question < ApplicationRecord
 
   validates :title, :body,  presence: true
 
-  after_create :calculate_reputation, :send_daily_digest
+  after_create :calculate_reputation
   after_commit :subscribe_for_updates, on: :create
+
+  def subscribers
+    subscriptions.map(&:user)
+  end
 
   private
 
   def calculate_reputation
     ReputationJob.perform_later(self)
-  end
-
-  def send_daily_digest
-    DailyDigestJob.perform_later
   end
 
   def subscribe_for_updates

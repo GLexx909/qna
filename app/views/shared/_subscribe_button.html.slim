@@ -1,2 +1,5 @@
-.text-center = link_to mi.notifications.css_class(color_class), subscribe_path(question), remote: true,
-                                                                              method: :post if can?(:swap, Subscription)
+- if subscription
+  = link_to mi.notifications.css_class('orange600'), subscription_path(subscription), remote: true, method: :delete
+- else
+  = link_to mi.notifications, question_subscriptions_path(question), remote: true, method: :post
+

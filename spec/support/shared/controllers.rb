@@ -86,10 +86,18 @@ shared_examples_for 'DELETE to render status 403' do
   end
 end
 
-shared_examples_for "To render view js" do
+shared_examples_for "To POST render view js" do
   #view must be symbol
   it "should render view js" do
-    post :swap, params: params, format: :js
+    post view, params: params, format: :js
+    expect(response).to render_template view
+  end
+end
+
+shared_examples_for "To DELETE render view js" do
+  #view must be symbol
+  it "should render view js" do
+    delete view, params: params, format: :js
     expect(response).to render_template view
   end
 end

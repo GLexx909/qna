@@ -6,7 +6,9 @@
   .row
     .col-sm-1
       = render 'shared/vote_links', resource: @question
-      .subscribe = render 'shared/subscribe_button', question: @question, color_class: @color_class
+      - if can?(:create, Subscription)
+        .subscribe.text-center
+          = render 'shared/subscribe_button', question: @question, subscription: @subscription
     .col-sm-11
       h1 = @question.title
       p = @question.body

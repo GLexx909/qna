@@ -32,13 +32,12 @@ RSpec.describe Question, type: :model do
     end
   end
 
-  describe 'send_daily_digest' do
-    let(:user) { build(:user)}
-    let(:question) { build(:question, author: user)}
+  describe '#subscribers' do
+    let(:user) { create(:user)}
+    let(:question) { create(:question, author: user)}
 
-    it 'calls ReputationJob' do
-      expect(DailyDigestJob).to receive(:perform_later)
-      question.save!
+    it 'should get array of users' do
+      expect(question.subscribers).to eq [user]
     end
   end
 end

@@ -20,7 +20,7 @@ Rails.application.routes.draw do
 
   resources :questions, concerns: [:votable], shallow: true do
     resources :comments, only: [:create, :destroy]
-    # resources :subscriptions, only: :swap
+    resources :subscriptions, only: [:create, :destroy]
 
     resources :answers, concerns: [:votable] do
       resources :comments, only: [:create, :destroy]
@@ -31,7 +31,6 @@ Rails.application.routes.draw do
 
   resources :attachments, only: :destroy
   resources :links, only: :destroy
-  post 'subscribe/:id', to: 'subscriptions#swap', as: :subscribe
 
   namespace :my do
     resources :badges, only: :index
