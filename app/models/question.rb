@@ -7,6 +7,7 @@ class Question < ApplicationRecord
   belongs_to :author, class_name: 'User'
   has_one :badge, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
+  has_many :subscribers, through: :subscriptions, source: :user
 
   has_many_attached :files
 
@@ -17,10 +18,6 @@ class Question < ApplicationRecord
 
   after_create :calculate_reputation
   after_commit :subscribe_for_updates, on: :create
-
-  def subscribers
-    subscriptions.map(&:user)
-  end
 
   private
 
