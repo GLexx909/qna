@@ -9,6 +9,12 @@ shared_examples_for 'To save a new object' do
   end
 end
 
+shared_examples_for 'To create now object' do
+  it 'should create new subscription' do
+    expect { post methods, params: params, format: :js }.to change(object, :count).by(1)
+  end
+end
+
 shared_examples_for 'To does not save a new object' do
   it 'does not save a new object' do
     expect { post :create, params: params, format: :js }.to_not change(object_class, :count)
@@ -77,5 +83,21 @@ shared_examples_for 'DELETE to render status 403' do
   it 'render status 403' do
     delete :destroy, params: { id: object }, format: :js
     expect(response).to have_http_status 403
+  end
+end
+
+shared_examples_for "To POST render view js" do
+  #view must be symbol
+  it "should render view js" do
+    post view, params: params, format: :js
+    expect(response).to render_template view
+  end
+end
+
+shared_examples_for "To DELETE render view js" do
+  #view must be symbol
+  it "should render view js" do
+    delete view, params: params, format: :js
+    expect(response).to render_template view
   end
 end

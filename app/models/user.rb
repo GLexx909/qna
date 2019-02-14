@@ -10,6 +10,7 @@ class User < ApplicationRecord
   has_many :comments, foreign_key: 'author_id'
   has_many :votes, dependent: :destroy
   has_many :authorizations, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   def author_of?(resource)
     id == resource.author_id
@@ -25,5 +26,9 @@ class User < ApplicationRecord
 
   def create_authorization(auth)
     self.authorizations.create(provider: auth.provider, uid: auth.uid)
+  end
+
+  def subscribed_to(question)
+    subscriptions&.find_by(question: question)
   end
 end

@@ -5,6 +5,7 @@ RSpec.describe User, type: :model do
   it { should have_many(:answers).with_foreign_key('author_id') }
   it { should have_many(:comments).with_foreign_key('author_id') }
   it { should have_many(:votes).dependent(:destroy) }
+  it { should have_many( :subscriptions).dependent(:destroy)}
 
   it { should validate_presence_of :email }
   it { should validate_presence_of :password }
@@ -51,6 +52,15 @@ RSpec.describe User, type: :model do
       expect(Services::FindForOauth).to receive(:new).with(auth, email).and_return(service)
       expect(service).to receive(:call)
       User.find_for_oauth(auth, email)
+    end
+  end
+
+  describe '#subscribed_to' do
+    let(:user) { create(:user) }
+    let(:question) { create(:question, author: user) }
+
+    it 'should get subscription entry' do
+      expect(user.subscribed_to(question)).to eq Subscription.last
     end
   end
 end

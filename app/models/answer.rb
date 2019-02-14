@@ -16,6 +16,8 @@ class Answer < ApplicationRecord
   scope :sort_by_best, -> { order(best: :desc, created_at: :asc) }
   scope :best, -> { where(best: true) }
 
+  after_commit :send_notification, on: :create
+
   delegate :badge, to: :question
 
   def change_mark_best
@@ -23,5 +25,11 @@ class Answer < ApplicationRecord
       question.answers.update_all(best: false)
       update!(best: true)
     end
+  end
+
+  private
+
+  def send_notification
+    AnswerNewNotificationJob.perform_later(self)
   end
 end

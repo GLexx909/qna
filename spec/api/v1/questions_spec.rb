@@ -4,7 +4,7 @@ describe 'Questions API', type: :request do
   describe 'GET /api/v1/questions' do
     let(:api_path) { '/api/v1/questions' }
 
-    it_behaves_like 'API Authorizable', let(:headers) { headers_attr }, let(:method) { :get }
+    it_behaves_like 'API Authorizable', let(:headers) { headers_attr }, let(:methods) { :get }
 
     context 'authorized' do
       let(:access_token)      { create(:access_token) }
@@ -50,7 +50,7 @@ describe 'Questions API', type: :request do
     let(:access_token)      { create(:access_token) }
     let(:api_path)          { "/api/v1/questions/#{question.id}" }
 
-    it_behaves_like 'API Authorizable', let(:headers) { headers_attr }, let(:method) { :get }
+    it_behaves_like 'API Authorizable', let(:headers) { headers_attr }, let(:methods) { :get }
 
     context 'authorized' do
       before { get api_path, params: { access_token: access_token.token }, headers: headers }
@@ -72,7 +72,7 @@ describe 'Questions API', type: :request do
     let(:api_path)     { "/api/v1/questions" }
     let(:access_token) { create(:access_token) }
 
-    it_behaves_like 'API Authorizable', let(:method) { :post }
+    it_behaves_like 'API Authorizable', let(:methods) { :post }
     it_behaves_like 'Authorized', let(:object) {'question'}
   end
 
@@ -82,7 +82,7 @@ describe 'Questions API', type: :request do
     let(:access_token)    { create(:access_token) }
     let(:api_path)        { "/api/v1/questions/#{question.id}" }
 
-    it_behaves_like 'API Authorizable', let(:method) { :patch }
+    it_behaves_like 'API Authorizable', let(:methods) { :patch }
 
     context 'authorized' do
       before { patch api_path, params: { access_token: access_token.token, question: {title: 'Title_new', body: 'Body_new' } } }
@@ -98,7 +98,7 @@ describe 'Questions API', type: :request do
     let(:access_token)    { create(:access_token) }
     let(:api_path)        { "/api/v1/questions/#{question.id}" }
 
-    it_behaves_like 'API Authorizable', let(:method) { :delete }
+    it_behaves_like 'API Authorizable', let(:methods) { :delete }
     it_behaves_like 'To delete object', let(:object) { Question }
   end
 end

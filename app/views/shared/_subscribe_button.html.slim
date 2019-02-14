@@ -1,0 +1,5 @@
+- if subscription
+  = link_to mi.notifications.css_class('orange600'), subscription_path(subscription), remote: true, method: :delete
+- else
+  = link_to mi.notifications, question_subscriptions_path(question), remote: true, method: :post
+

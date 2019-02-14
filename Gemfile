@@ -41,6 +41,7 @@ gem 'devise'
 #Style
 gem 'bootstrap', '~> 4.1'
 gem 'octicons_helper'
+gem 'material_icons'
 
 gem 'jquery-rails'
 gem 'dotenv-rails' # ENV [secret_key]
@@ -53,6 +54,9 @@ gem 'skim' #templates engine. Use template.jst.skim in js rendering
 gem 'doorkeeper' #REST API
 gem 'active_model_serializers', '~> 0.10'
 gem 'oj' #json optimizer
+gem 'sidekiq' #background processing
+gem 'sinatra', require: false
+gem 'whenever', require: false
 
 # omniauth
 gem 'omniauth'

@@ -1,6 +1,7 @@
 class QuestionsController < ApplicationController
   include Voted
   before_action :authenticate_user!, except: [:index, :show]
+  before_action :find_subscription, only: [:show]
   after_action :publish_question, only: [:create]
   after_action :delete_question, only: [:destroy]
 
@@ -71,6 +72,10 @@ class QuestionsController < ApplicationController
     ActionCable.server.broadcast(
         'questions', {action: 'delete', data: question.id}
     )
+  end
+
+  def find_subscription
+    @subscription ||= current_user&.subscribed_to(@question)
   end
 
   def question_params
