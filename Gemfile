@@ -57,6 +57,9 @@ gem 'oj' #json optimizer
 gem 'sidekiq' #background processing
 gem 'sinatra', require: false
 gem 'whenever', require: false
+gem 'mysql2' #for sphinx search
+gem 'thinking-sphinx' # search
+gem 'will_paginate', '~> 3.1.0'
 
 # omniauth
 gem 'omniauth'
@@ -72,6 +75,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.8'
   gem 'factory_bot_rails'
   gem 'letter_opener'
+  # gem 'database_cleaner' #for Sphinx testing
 end
 
 group :development do

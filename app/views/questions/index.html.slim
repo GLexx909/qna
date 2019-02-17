@@ -1,4 +1,8 @@
-p = link_to 'Ask question', new_question_path
+.context
+  p = link_to 'Ask question', new_question_path
 
-.questions-list
-  = render @questions
+  .questions-list
+    = render @questions
+
+  .digg_pagination
+    = will_paginate @questions, :container => false

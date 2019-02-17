@@ -5,4 +5,12 @@ class Comment < ApplicationRecord
   scope :sort_by_time, -> { order(created_at: :asc) }
 
   validates :body, presence: true
+
+  def question
+    if commentable_type == 'Question'
+      commentable
+    elsif commentable_type == 'Answer'
+      commentable.question
+    end
+  end
 end
