@@ -15,7 +15,7 @@ RSpec.describe Services::SearchSphinxService do
     end
 
     it 'should return false if Search Query if blank' do
-      expect(subject.find('Global_Search', '', 1)).to eq false
+      expect(subject.find('Global_Search', '', 1)).to eq nil
     end
   end
 end

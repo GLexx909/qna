@@ -26,6 +26,6 @@ module ResourcesHelper
   end
 
   def category_list
-    %w(Global_Search User Question Answer Comment)
+    %w(Global_Search User Question Answer Comment) # Coordinate it with Services::SearchSphinxService CATEGORY
   end
 end

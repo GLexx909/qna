@@ -1,17 +1,23 @@
 class Services::SearchSphinxService
+  CATEGORY = %w(Global_Search User Question Answer Comment) # Coordinate it with view helper: resources_helper.rb
+
   def find(category_query, search_query, page)
-    return false if clear_specialize_symbols(search_query).empty?
-    category(category_query).search(search_query, page: page, per_page: 10)
+    if access_open(category_query, search_query)
+      category(category_query).search(escape(search_query), page: page, per_page: 10)
+    end
   end
 
   private
 
   def category(category_query)
-    return ThinkingSphinx if category_query == 'Global_Search'
-    category_query.constantize if category_query.constantize
+    category_query == 'Global_Search' ? ThinkingSphinx : category_query.constantize
   end
 
-  def clear_specialize_symbols(search_query)
-    search_query.gsub(/@/, '*')
+  def escape(search_query)
+    ThinkingSphinx::Query.escape(search_query)
+  end
+
+  def access_open(category_query, search_query)
+    CATEGORY.include?(category_query) && search_query.present?
   end
 end

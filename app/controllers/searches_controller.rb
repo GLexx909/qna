@@ -1,6 +1,6 @@
 class SearchesController < ApplicationController
 
-  skip_authorization_check
+  authorize_resource class: Services::SearchSphinxService
 
   def index
     @data = Services::SearchSphinxService.new.find(params[:category], params[:search], params[:page])
