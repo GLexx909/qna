@@ -3,22 +3,19 @@ require 'rails_helper'
 RSpec.describe SearchesController, type: :controller do
   describe 'GET #index' do
     context 'if valid search query' do
+      let(:sphinx_service) { double(Services::SearchSphinxService) }
+
+      before do
+        allow(Services::SearchSphinxService).to receive(:new).and_return(sphinx_service)
+      end
 
       it 'searches for result' do
-        sphinx_service = double(Services::SearchSphinxService)
-
-        allow(Services::SearchSphinxService).to receive(:new).and_return(sphinx_service)
         expect(sphinx_service).to receive(:find).with('Global_Search', 'test', '1')
-
         get :index, params: {category: 'Global_Search', search: 'test', page: '1'}
       end
 
       it "should render :index" do
-        sphinx_service = double(Services::SearchSphinxService)
-
-        allow(Services::SearchSphinxService).to receive(:new).and_return(sphinx_service)
         allow(sphinx_service).to receive(:find).with('Global_Search', 'test', '1').and_return([])
-
         get :index, params: {category: 'Global_Search', search: 'test', page: '1'}
 
         expect(response).to render_template(:index)
