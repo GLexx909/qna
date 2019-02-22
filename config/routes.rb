@@ -37,6 +37,7 @@ Rails.application.routes.draw do
   end
 
   resources :preregistrations, only: [:new, :create]
+  resources :searches, only: [:index]
 
   # API
 

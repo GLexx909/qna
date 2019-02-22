@@ -12,8 +12,5 @@ html
   body
     = render 'shared/nav'
     .container
-      p.notice
-        = notice
-      p.alert
-        = alert
+      = render_flash
       = yield

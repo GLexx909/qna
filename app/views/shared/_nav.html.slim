@@ -2,6 +2,8 @@ nav.navbar.navbar-dark.bg-dark.box-shadow-nav
   .navbar-brand = link_to 'QNA', root_path
 
   ul.nav.list-inline
+    .search-block.row
+      .search_field = render 'shared/search_field'
     - if user_signed_in?
       li.list-inline-item = link_to 'My Badges', my_badges_path, class: 'nav-link'
       li.list-inline-item = link_to 'Sign out',  destroy_user_session_path, method: :delete, class: 'nav-link'
