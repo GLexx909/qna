@@ -39,7 +39,7 @@ gem 'slim-rails'
 gem 'devise'
 
 #Style
-gem 'bootstrap', '~> 4.1'
+gem 'bootstrap', ">= 4.3.1"
 gem 'octicons_helper'
 gem 'material_icons'
 
@@ -84,6 +84,13 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+
+  # Deploy
+  gem 'capistrano', require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-rvm', require: false
+  gem 'capistrano-passenger', require: false
 end
 
 group :test do
