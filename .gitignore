@@ -29,6 +29,7 @@
 
 .idea
 .env
+.env.production.local
 
 config/*.sphinx.conf
 db/sphinx
