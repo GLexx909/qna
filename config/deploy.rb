@@ -8,7 +8,7 @@ set :repo_url, "git@github.com:GLexx909/qna.git"
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
 # Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, "/home/deployer/qna"
+set :deploy_to, "/home/qna/qna"
 set :deploy_user, 'qna'
 
 # Default value for :format is :airbrussh.
