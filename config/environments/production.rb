@@ -64,13 +64,14 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "qna_#{Rails.env}"
 
   config.action_mailer.perform_caching = false
+  config.action_mailer.default_options = {from: 'info@qnathink2019.ru'}
   config.action_mailer.default_url_options = { host: 'qnathink2019.ru' }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
       address:              'smtp.yandex.ru',
       port:                 465,
       domain:               "qnathink2019.ru",
-      username:             Rails.application.credentials[:production][:yandex_mail][:username],
+      user_name:             Rails.application.credentials[:production][:yandex_mail][:username],
       password:             Rails.application.credentials[:production][:yandex_mail][:password],
       authentication:       'plain',
       ssl: true,
