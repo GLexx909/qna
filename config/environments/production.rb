@@ -76,7 +76,7 @@ Rails.application.configure do
       authentication:       'plain',
       ssl: true,
       tls: true,
-      enable_starttls_auto: true,
+      enable_starttls_auto: true
   }
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
