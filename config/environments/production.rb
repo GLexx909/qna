@@ -74,6 +74,7 @@ Rails.application.configure do
       password:             Rails.application.credentials[:production][:yandex_mail][:password],
       authentication:       'plain',
       ssl: true,
+      tls: true,
       enable_starttls_auto: true,
   }
   # Ignore bad email addresses and do not raise email delivery errors.
