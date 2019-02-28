@@ -39,7 +39,7 @@ $(document).on('turbolinks:load', function() {
     // Answer new form CanCan exception.message
 
     $('.answer-new-form').on('ajax:error', '.new-answer', function(e) {
-        let errors = e.detail[0];
+        let errors = e.detail[0]['error'];
 
         $('.answer-errors').html('<b>' + errors + '</b>');
     });
