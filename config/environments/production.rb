@@ -74,8 +74,8 @@ Rails.application.configure do
       user_name:             Rails.application.credentials[:production][:google_mail][:username],
       password:             Rails.application.credentials[:production][:google_mail][:password],
       authentication:       'plain',
-      ssl: true,
-      tls: true,
+      # ssl: true,
+      # tls: true,
       enable_starttls_auto: true
   }
   # Ignore bad email addresses and do not raise email delivery errors.
