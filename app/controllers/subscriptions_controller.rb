@@ -7,7 +7,9 @@ class SubscriptionsController < ApplicationController
     @question = Question.find(params[:question_id])
     @subscription = current_user.subscriptions.new(question: @question)
 
-    if !@subscription.save
+    if @subscription.save
+      head :ok
+    else
       head :unprocessable_entity
     end
   end
