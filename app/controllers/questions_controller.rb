@@ -75,7 +75,7 @@ class QuestionsController < ApplicationController
   end
 
   def find_subscription
-    @subscription ||= current_user&.subscribed_to(@question)
+    @subscription ||= current_user&.subscribed_to(question)
   end
 
   def question_params
