@@ -8,7 +8,7 @@
 # server "db.example.com", user: "deploy", roles: %w{db}
 server "130.193.52.133", user: "qna", roles: %w{app db web}, primary: true
 set :rails_env, :production
-set :sidekiq_config, -> { File.join(shared_path, 'config', 'sidekiq.yml') }
+set :sidekiq_config, -> { File.join(current_path, 'config', 'sidekiq.yml') }
 # role-based syntax
 # ==================
 
