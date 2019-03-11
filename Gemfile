@@ -60,6 +60,7 @@ gem 'whenever', require: false
 gem 'mysql2' #for sphinx search
 gem 'thinking-sphinx' # search
 gem 'will_paginate', '~> 3.1.0'
+gem 'redis-rails'
 
 # omniauth
 gem 'omniauth'

@@ -1,36 +1,37 @@
-- if can?(:destroy, @question)
-  = button_to 'Delete the Question', question_path(@question), method: :delete
-  = button_to 'Edit Question', '#', class: 'edit-question-link'
+- cache @question do
+  - if can?(:destroy, @question)
+    = button_to 'Delete the Question', question_path(@question), method: :delete
+    = button_to 'Edit Question', '#', class: 'edit-question-link'
 
-.container-fluid.mt-4
-  .row
-    .col-sm-1
-      = render 'shared/vote_links', resource: @question
-      - if can?(:create, Subscription)
-        .subscribe.text-center
-          = render 'shared/subscribe_button', question: @question, subscription: @subscription
-    .col-sm-11
-      h1 = @question.title
-      p = @question.body
-
-- if @question.files.attached?
-  - @question.files.each do |file|
-    .file-block
-      = link_to file.filename.to_s, url_for(file), target:'_blank'
-      = button_to 'Delete file', attachment_path(file.id), method: :delete, remote: true if can?(:destroy, @question)
-
-.links
-  = render 'shared/show_links', resource: @question if @question.links.first
-
-.box-shadow-card.max-width-50vw.mb-4 = render 'questions/form'
-
-hr
-
-.question-comments-block
-  .question-comments-body = render @question.comments.sort_by_time
-  .container-fluid
+  .container-fluid.mt-4
     .row
       .col-sm-1
+        = render 'shared/vote_links', resource: @question
+        - if can?(:create, Subscription)
+          .subscribe.text-center
+            = render 'shared/subscribe_button', question: @question, subscription: @subscription
       .col-sm-11
-        .text-md-right = link_to 'Comment this', '#', remote: true, class: 'question-comments__add-button comments__add-button' if can?(:create, Comment)
-        .question-comment-form.hidden = render 'shared/comment_form', resource: @question
+        h1 = @question.title
+        p = @question.body
+
+  - if @question.files.attached?
+    - @question.files.each do |file|
+      .file-block
+        = link_to file.filename.to_s, url_for(file), target:'_blank'
+        = button_to 'Delete file', attachment_path(file.id), method: :delete, remote: true if can?(:destroy, @question)
+
+  .links
+    = render 'shared/show_links', resource: @question if @question.links.first
+
+  .box-shadow-card.max-width-50vw.mb-4 = render 'questions/form'
+
+  hr
+
+  .question-comments-block
+    .question-comments-body = render @question.comments.sort_by_time
+    .container-fluid
+      .row
+        .col-sm-1
+        .col-sm-11
+          .text-md-right = link_to 'Comment this', '#', remote: true, class: 'question-comments__add-button comments__add-button' if can?(:create, Comment)
+          .question-comment-form.hidden = render 'shared/comment_form', resource: @question
